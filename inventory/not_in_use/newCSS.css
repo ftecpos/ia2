@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+div{
+	background-color:#999;
+	color: #FFF;
+}
+fieldset{
+	border: 1px solid white;
+	border-color: white #666661 #666661 white;
+	background-color:#CCC;
+}
+Legend{
+	background-color: #06F;
+	color: white;
+	font-weight: bold;
+	border: 1px solid white;
+	border-color: #E5E5C3 #505014 #505014 #E5E5C3;	
+}
+dl {
+	display: block;
+}
+
+dt {
+	float: left;
+	text-align: right;
+	width: 100px;
+	line-height: 25px;
+	margin: 0 10px 10px 0;
+}
+dd {
+	float: left;
+	width: auto;
+	line-height: 25px;
+	margin: 0 0 10px 0;
+}
+
+#mytable tbody tr:hover, .mytb tbody tr:hover{
+    background-color: #ff0000;
+    color:#fff;
+}
+
+fieldset.button{
+	background:#666;
+	border-color:#CCC #333 #333 #CCC;
+}
+th{
+	background:#00F;
+	color:#FFF;
+}
+td{
+	text-align:center;
+	vertical-align:middle;
+}

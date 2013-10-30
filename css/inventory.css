@@ -1,0 +1,322 @@
+/*  body und schrift deffinitionen */
+.ftltable{
+	float: left;
+}
+
+.ftrtable{
+	clear: all;
+	float: right;
+}
+.findAccButSelect{
+	background: #000 !important;
+}
+
+.finIncele{
+	color:#0066CC;
+}
+.finAccByType, .findAccBut,.finMobileBut,.findInvoiceType{
+	color:#FC8200;
+	height:28px;
+	font:15px italic bold, '微軟正黑體' !important;
+	padding: 0 3px 2px 2px ;
+	margin:1px;
+}
+.findInvoiceType{ height:25px; font:14px italic bold, '微軟正黑體' !important; }
+.findAccBut{   color:#52B5CE;   }
+.finMobileBut{   color:#2DC42B;   }
+.finIncel:active,
+.finIncele:active,
+.finAccByType:active,
+.findAccBut:active,
+.finMobileBut:active,
+.findInvoiceType:active{
+	background: yellow;
+	
+}
+.srbut,.ftrtable input[type='button'],.ssbut{
+	color:#fff;
+	font:21px italic bold, '微軟正黑體';
+	background: #666666;
+	border: 2px solid #1C1C1C;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	 
+}
+.ftrtable input[type='button']{
+	/*padding: 10px 10px 10px 10px;*/
+	padding: 17px;
+}
+.srbut,.ssbut{
+	padding: 20px;
+}
+.srbut:active,
+.ssbut:active,
+.ftrtable input[type='button']:active
+{
+color: #fff;
+ background: #AAAAAA;
+ border: 2px solid #fff;
+}
+.ssbut{
+width: 100px;
+}
+
+
+
+
+
+.underline{
+	background: #000;
+	height: 1px;
+	width: auto;
+	margin: 0 5px 0 0;
+}
+
+
+#invNo, #pID, #findAccCode,#findAccKey,
+#findMobileKey, #findMobileCode, #pdID{
+	height: 25px;
+	font:20px arial, '微軟正黑體';
+}
+#finbCode, #findMobileCode{
+	width:160px;	
+}
+
+.bcode, .imei {
+	border: 1px solid #000000;
+	background: #444;   color: #fff;   height: 30px;   width: 200px;   font-size: 25px;
+	ime-mode:disabled;
+}
+.qty,.createByText{
+	border: 1px solid #000000;
+	background: #FFF;   color: #000;   height: 30px;   font-size: 25px;
+	font-family: '微軟正黑體';
+}
+.qty{width: 90px;}
+.createByText{width:90px; color: RED; font-size: 15px}
+
+input#ph_recImei{
+	border: 1px solid #000000;
+	background: #444;   color: #fff;
+	width: 262px;	height: 40px; font-size:27px;
+}
+
+
+#mpRecordTable td{
+border:thin #757575 solid;
+
+padding:0px;
+}
+
+ .rightline{
+	border-right:#0000FF 1px dashed;
+	
+}
+.sit{
+	border-bottom:#0000FF 1px dashed;	
+}
+
+.test{
+	background-color: #000;
+	position: static;
+	z-index: 1;
+	top: 200px;
+	width: 63%;
+}
+
+#phoneReceLeft, #phoneTransLeft {
+	
+	float: left;
+	margin: 0 0 0 0;
+
+	width: 475px;
+	height: 410px;
+}
+
+#phoneReceTableArea, #phoneTransTableArea{
+
+	float: left;
+	width: 300px;
+	height: 410px;
+	margin: -410px 0 0 480px;
+	overflow: auto;
+	background:#FFF5A3;
+}
+
+#listImeiTop{
+float: left;
+
+	background-color:#CCC;
+	margin: -7px 0 0px -12px;
+	padding: 0 0 7px 0;
+	
+	width: 429px;
+}
+#listImeiBottom{
+	clear:both;
+float: left;
+	margin: 2px 0 0px -12px;
+	padding: 0 0 0 0;
+	
+	width: 429px;
+}
+
+
+.useOfMar{
+	margin: 0px 0px 5px 0px;
+	/*height: 50px;*/
+}
+.gidLeft{
+	clear: both;
+	float:left;
+	margin: 0px 0px 0px 0px;
+}
+.gidRight{
+	
+	float:right;
+}
+
+.rectb td{
+	padding:5px;
+}
+/* ----------------- */
+
+.gg {font-size: 20px;
+	 text-align: center;
+	 font-family: arial,'微軟正黑體';
+	 margin: 0 5px;
+	 }
+
+	 
+
+
+#si_headA,.si_headB,#dend_head{
+	margin:2px 0;
+	float:left;
+	width:1004px;
+}
+.si_headB{
+	border:1px solid #000
+}
+
+#si_fir_menu,#dend_fir_menu{
+	float:left;
+	width:1004px;
+
+}
+#si_bottom,#dend_bottom,#tr_bottom{
+	float:left;
+	width:1004px;
+
+	padding:0 0 5px 0;
+}
+
+#si_foot,#dend_foot{
+	float:left;
+	width:1004px;
+
+}
+.inv_col, .dend_col{
+border: 1px solid #000000;
+	background: #FFF;   color: #000;   height: 30px;   font-size: 25px;
+	ime-mode:disabled;
+}
+.stockin_col{
+border: 1px solid #000000;
+	background: #FFF;   color: #000;   height: 23px; width:150px;
+	ime-mode:disabled;
+}
+.rec_staff{
+   width: 70px;
+}
+.si_poNo{
+   width: 190px;
+}
+.si_shopNo{
+	width: 50px;
+}
+.shopId{
+	width: 130px;
+}
+.si_but{
+	font-size:13px !important;
+	color: red;
+	background: #fff;
+	border: 2px solid #1C1C1C;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	width:auto;
+}
+.si_but:active{
+	background: yellow;
+}
+.trans_report,
+.stock_report,
+.stock_report_over,
+.sales_report,
+.dend_table{
+
+	width: auto;
+	font-size:13px;	
+	cursor: pointer;
+	overflow: scroll;
+	white-space: nowrap;
+	font-family: arial;
+	border: 1px thin #000;
+	
+}
+
+.trans_report thead th,
+.stock_report thead th,
+.stock_report_over thead th,
+.sales_report thead th,
+.dend_table thead th
+{
+	background-color: #FF9999;
+	border: 1px thin #000;
+	color:#fff;
+	font:15px italic bold, '微軟正黑體' !important;
+	text-align:center;
+	cursor: pointer;
+	
+	width:inherit;
+}
+.trans_report thead th,
+.stock_report thead th,
+.stock_report_over thead th,
+.sales_report thead th,
+.dend_table thead th
+{
+	background-color: #2A45E0;
+}
+.trans_report tbody tr:hover,
+.stock_report tbody tr:hover,
+.stock_report_over tbody tr:hover,
+.sales_report tbody tr:hover,
+.dend_table tbody tr:hover
+{
+	background-color: #FFDC30;
+	color:#000;
+	cursor: auto;
+}
+.trans_report tbody td,
+.stock_report tbody td,
+.stock_report_over tbody td,
+.sales_report tbody td,
+.dend_table tbody td
+{
+	text-align:center;
+	border: 0px thin #FFF;
+	
+}
+.tat, .tau{
+	font:25px arial, '微軟正黑體';
+	text-align: left;
+	color:red;
+}
+.tau{
+	color:blue;
+}
+/*----------------------------------------------------------------------*/

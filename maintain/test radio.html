@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>無標題文件</title>
+</head>
+
+<body>
+
+單選的 RADIO：
+<div id='fm1'>
+<input name='country' type=radio
+  value='ROC'checked>中華民國<br />
+<input name='country' type=radio
+  value='USA'>美國<br />
+<input name='country' type=radio
+  value='NZL'>紐西蘭<br />
+<input name='country' type=radio
+  value='FRC'>法國
+</div>
+
+<input type="button" onclick="getSelectRadio()"/>
+
+<script type='text/javascript'>
+function getSelectRadio(){
+var span = document.getElementById("fm1");
+var inputs = span.getElementsByTagName("input");
+var i = 0;
+for ( i=0; i < inputs.length; ++i) {
+    if (inputs[i].checked) {
+        alert (i);
+    }
+}
+
+}
+</script>
+</body>
+</html>

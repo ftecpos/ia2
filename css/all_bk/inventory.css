@@ -1,0 +1,94 @@
+
+/* ----------------- */
+
+.gg {font-size: 20px;
+	 text-align: center;
+	 font-family: arial,'微軟正黑體';
+	 }
+
+
+#si_head{
+	float:left;
+	width:1004px;
+
+}
+
+#si_fir_menu{
+	float:left;
+	width:1004px;
+
+}
+#si_bottom{
+	float:left;
+	width:1004px;
+
+	padding:0 0 5px 0;
+}
+
+#si_foot{
+	float:left;
+	width:1004px;
+
+}
+.inv_col{
+border: 1px solid #000000;
+	background: #FFF;   color: #000;   height: 30px;   font-size: 25px;
+	ime-mode:disabled;
+}
+.rec_staff{
+   width: 70px;
+}
+.si_poNo{
+   width: 190px;
+}
+.si_shopNo{
+	width: 50px;
+}
+.shopId{
+	width: 130px;
+}
+.si_but{
+	font-size:13px !important;
+	color: red;
+	background: #fff;
+	border: 2px solid #1C1C1C;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	width:auto;
+}
+.si_but:active{
+	background: yellow;
+}
+
+.trans_report{
+
+	width: auto;
+	font-size:13px;	
+	cursor: pointer;
+	overflow: scroll;
+	white-space: nowrap;
+	font-family: arial;
+	border: 1px thin #000;
+	
+}
+
+.trans_report thead th{
+	background-color: #FF9999;
+	border: 1px thin #000;
+	color:#fff;
+	font:15px italic bold, '微軟正黑體' !important;
+	text-align:center;
+	cursor: pointer;
+	
+	width:inherit;
+}
+.trans_report thead th{
+	background-color: #2A45E0;
+}
+.trans_report tbody td{
+	text-align:center;
+	border: 0px thin #FFF;
+	
+}
+/*----------------------------------------------------------------------*/

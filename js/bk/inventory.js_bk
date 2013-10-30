@@ -1,0 +1,277 @@
+﻿var imeiArray = [];
+var imeiQty=0;
+
+function subStInQtyByEnt(e){
+	var recqty = document.getElementById('recQty');
+    var Trecqty = recqty.value;
+	if(Trecqty.length>0 && e.which==13 && Trecqty!='0'){
+		subStInQty();
+	}
+}//end of subStInQtyByEnt(e)
+
+function subStInQty(){
+	if($('#recQty').val()!=null&&$('#recQty').val()<=tempRecqty){
+		checkQty($('#recQty').val());
+			$.ajax({
+				url: "../inventory/invGet.php?action=recGoods",
+				cache: false,
+				dataType: 'html',
+				type:'GET',
+				data: {
+					podNo:temppodNo,
+					rec_Qty:$('#recQty').val(),
+					poDate:$('#si_bot_pcd').html(),
+					staffid:$('#siRec_staff').val(),
+					shopno:shopno,
+	//				po_State_no:po_State_no,
+					poNo:tempPoNoVal,
+					
+				},
+				error: function(xhr) {
+					alert('Ajax request Error!!!!!');
+				},
+				success: function(response) {
+					findPOHead($('#si_poNo').val());
+				}
+			});//----End of ajax------
+		$('#moreGoodsReceForm').dialog("close");
+	} else {
+		$('#maxQtyMsg_z').addClass( "newClass", 100 );
+		$('#qtyMsg').addClass( "newClass", 100 );
+		$('#recQty').select();
+	}
+}// end of subStInQty() function
+function recMobile(){
+	var imeiArrLength = imeiArray.length;
+	
+	for ( i=0; i < imeiArrLength; i++) {
+		
+			$.ajax({
+				url: "../inventory/invGet.php?action=recMobile",
+				cache: false,
+				dataType: 'html',
+				type:'GET',
+				data: {
+					imei:imeiArray[i],
+					phoneType_no:$('#ph_typeNo').html(),
+					shopno:shopno,
+					phoneState_no:1,
+					poDetail_no:$('#ph_podno').html(),	
+				},
+				error: function(xhr) {
+					alert('Ajax request Error!!!!!');
+				},
+				success: function(response) {
+					findPOHead($('#si_poNo').val());
+				},
+			});//----End of ajax------
+	}
+	checkQty(imeiArrLength);
+	
+	$('#phoneReceForm').dialog('close');
+}// end of recMobile() function
+
+
+function findPOHead(poNo){
+	$('#si_poNo').val(poNo);
+	$('#si_poNo').select();
+		$.ajax({
+			url:"../inventory/invGet.php?action=getPOD",
+			cache: false,
+			dataType: 'script',
+			type:'GET',
+			data:{	poNo:poNo,	},
+			error: function(xhr){ alert('Ajax request Error!!!!!');	},
+			success: function(response) {
+				$('#poTable').html(null);
+				
+				if(tt[0]==1){
+					$('#si_bottom').html(null);
+					$('#si_foot').css("display","block");
+					$('#si_bot_poNo').html(tt[1]);
+					$('#si_bot_pcd').html(tt[2]);
+					$('#si_bot_cstaff').html(tt[3]);
+					$('#si_bot_supp').html(tt[4]);
+					$('#si_bot_poState').html(tt[5]);
+					$('#si_bot_plocation').html(tt[6]);
+					$('#po_detail_area').html(tt[7]);
+					po_State_no=tt[8];
+					$('#totalNonRecQty').html(tt[9]);
+					$('#totalRecQty').html(tt[10]);
+					
+					if(po_State_no==2)
+						$('#si_but_area').html('<input type="button" value="Close Order" class="si_but" onclick="si_co('+tt[1]+')"/>');
+					else if(po_State_no==4){
+						$('#si_but_area').html('<table border="1" cellpadding="2px" >'+
+											   '<tr><td style="width:130px; background-color:#CCC;">Modify By</td><td style="width:180px; color:#FF4756;">'+tt[11]+'</td>'+
+											   '<tr><td style="width:130px; background-color:#CCC;">Modify Date</td><td style="width:180px; color:#FF4756;">'+tt[13]+'</td>'+
+											   '<tr><td style="width:130px; background-color:#CCC;">Description</td><td style="width:180px; overflow:scroll">'+tt[12]+'</td>'+
+											   '</table>');
+					} else
+						$('#si_but_area').html(null);
+				}
+				
+				else{
+					$('#si_bottom').html('<p style="color:red; font-size:30px;">Record NOT Find</p>');
+					$('#si_foot').css('display','none');
+				}
+				
+				//$('#si_bottom').html(response);
+			},
+		});//end of ajax
+} //end of findPOHead(poNo)
+
+function getPhoneDetail(podNo){
+	$.ajax({
+		url:"../inventory/invGet.php?action=getPhoneDetail",
+		cache: false,
+		dataType: 'script',
+		type:'GET',
+		data:{	podNo:podNo,	},
+		error: function(xhr){ alert('Ajax request Error!!!!!');	},
+		success: function(response) {			
+			if(phDetail[0]==1){
+				$('#ph_phID').html(phDetail[1]);
+				$('#ph_manu').html(phDetail[2]);
+				$('#ph_name').html(phDetail[3]);
+				$('#ph_color').html(phDetail[4]);
+				$('#ph_state').html(phDetail[5]);
+				$('#ph_opri').html(phDetail[6]);
+				$('#ph_spri').html(phDetail[7]);
+				$('#ph_typeNo').html(phDetail[8]);
+			}
+			else{
+				alert("System error, please contact the system Administrator");
+			}
+		},
+	});//end of ajax
+	
+}// end of getPhoneDetail(podNo)
+
+function findPO(e){
+	 tempPoNo = document.getElementById('si_poNo');
+	 tempPoNoVal = tempPoNo.value;
+
+	if(tempPoNoVal.length > 0 && e.which==13){
+		 findPOHead(tempPoNoVal);
+	} else if(tempPoNoVal.length==0){
+		$('#si_bottom').load("../inventory/invGet.php?action=getSiBottom&pageNo=0");
+		$('#si_foot').css("display","none");
+	}
+}// end of findPo(e) funciton
+
+function addImeiToList(e){
+	 temp_ph_recImei = document.getElementById('ph_recImei');
+	 temp_ph_recImei_val = temp_ph_recImei.value;
+
+	if(temp_ph_recImei_val.length == 15 && e.which==13){
+		if(valid_imei(temp_ph_recImei_val)){
+			//alert('OK');
+			checkImeiExist($('#ph_recImei').val());
+			$('#ph_recImei').val(null);
+			$('#tempListNum').html('列表中數量 : '+imeiQty);
+		}else{
+			alert('Invalid IMEI');
+		}
+	}
+}// end of findPo(e) funciton
+
+function checkImeiExist(imei){
+	var canAdd=1; //1=cannot not add 0=can add
+	var imeiArrLength = imeiArray.length;
+	$.ajax({
+		url:"../inventory/invGet.php?action=checkImeiExist",
+		cache: false,
+		dataType: 'script',
+		type:'GET',
+		async: false,
+		data:{	imei:imei,	},
+		error: function(xhr){ alert('Ajax request Error!!!!!');	},
+		success: function(response) {
+			if(response==0){
+				canAdd=0;
+				
+				if(imeiArrLength==0){
+					canAdd==0;
+				}
+				else{
+					for ( i=0; i < imeiArrLength; i++) {
+						if(imei==imeiArray[i]){
+							canAdd=1; //1=cannot add 0=can add 3=db err msg
+							break;
+						}
+						else
+							canAdd=0; //1=cannot add 0=can add 3=db err msg
+					}
+				}	
+			}else{
+				canAdd=3; //1=cannot add 0=can add 3=db err msg
+				err_msg="IMEI已存在資料庫中, 不能重複增加, Please contact the system Administrator";
+			} //end of response if else
+		},
+	});//end of ajax
+
+	if(canAdd==0 && (imeiArrLength-$('#ph_oqty').html())==0)
+		$(".err_msg").html("超過訂購數!!!").css({"display":"block","color":"red"}).delay(1000).fadeOut(300);
+	else if(canAdd==0 && imeiArrLength<=$('#ph_oqty').html()){
+		imeiArray.push(imei);
+		imeiQty++;
+		$(".err_msg").html("Added").css({"display":"block","color":"GREEN"}).delay(800).fadeOut(300);
+		$('#phoneReceTable').append('<tr><td>'+imeiQty+'</td><td>'+imei+'</td><td>---</td></tr>');
+	}		
+	else if(canAdd==3)
+		$(".err_msg").html(err_msg).css({"display":"block","color":"red"}).delay(5000).fadeOut(300);
+	else{
+		err_msg="IMEI 已存在於列表中, 不能重複增加";
+		$(".err_msg").html(err_msg).css({"display":"block","color":"red"}).delay(1000).fadeOut(300);
+	}
+} //end of checkImeiExist(imei)
+
+
+function si_co(poNo){
+	$('#si_co_form_bottom').html('<fieldset>'+
+								 '<table cellpadding="5">'+
+								 '	<tr>'+
+								 '		<td><label for="si_co_staff" >員工編號   </label></td>'+
+								 '		<td>'+
+								 '			<input type="text" id="si_co_staff" onkeyup="return validateNumber($(this),value)"'+
+								 '			class="text ui-widget-content ui-corner-all" maxlength="4"'+
+								 '			onclick="select()"/>'+
+								 '		</td>'+
+								 '	</tr>'+
+								 '	<tr>'+
+								 '		<td><label for="si_co_poNo" >單據編號   </label></td>'+
+								 '		<td>'+
+								 '			<input type="text" id="si_co_poNo" class="text ui-widget-content ui-corner-all" disabled="disabled"/>'+
+								 '		</td>'+
+								 '	</tr>'+
+								 '	<tr>'+
+								 '		<td><label for="si_co_date" >日期   </label></td>'+
+								 '		<td>'+
+								 '			<input type="text" id="si_co_date"	class="text ui-widget-content ui-corner-all" disabled="disabled"/>'+
+								 '		</td>'+
+								 '	</tr>'+
+								 '</table>'+
+								 '</fieldset>'+
+								 '<div class="underline" style="margin:10px 0 10px 0"></div>'+
+								 '<span style="font-size:14px;">請輸入強制完結入貨原因</sapn>'+
+								 '<br><textarea id="si_co_desc" cols="" rows="" style="width:310px;height:230px;border:1px solid #CCC;"></textarea>'+
+								 '<div id="si_co_errMsg"></div>');
+	
+	$('#si_co_staff').val($('#staff_id').html());
+	$('#si_co_poNo').val(poNo);
+	//$('#si_co_poNo').val($('#si_bot_poNo').html());  以後用
+	$('#si_co_date').val(date);
+	
+	$('#si_co_form').dialog('open');
+	$('#si_co_desc').focus();
+	
+	
+}
+
+//--------------------------------------------------------------------------------------------------------
+function valid_imei(imei){
+	var pattern=new RegExp(/^[0-9]+$/);
+	return pattern.test(imei);
+}
+

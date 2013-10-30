@@ -1,0 +1,99 @@
+@charset "utf-8";
+/* CSS Document */
+<style type="text/css">
+#A4 {
+width:1010px;
+height:1450px;
+top:0px;
+left:0px;
+z-index:12;
+}
+#image {
+	position:absolute;
+	left:15px;
+	top:17px;
+	width:213px;
+	height:127px;
+	z-index:2;
+}
+#title {
+	position:absolute;
+	left:610px;
+	top:17px;
+	width:400px;
+	height:70px;
+	z-index:1;
+}
+#address {
+	position:absolute;
+	left:15px;
+	top:165px;
+	width:445px;
+	height:150px;
+	z-index:3;
+}
+#dateAndNo {
+	position:absolute;
+	left:705px;
+	top:164px;
+	width:305px;
+	height:150px;
+	z-index:4;
+}
+#dateAndNoPO {
+	position:absolute;
+	left:705px;
+	top:132px;
+	width:305px;
+	height:189px;
+	z-index:10;
+}
+#listHeader {
+	position:absolute;
+	left:15px;
+	top:330px;
+	width:995px;
+	height:46px;
+	z-index:5;
+}
+#itemList {
+	position:absolute;
+	left:15px;
+	top:380px;
+	width:995px;
+	height:896px;
+	z-index:6;
+}
+#remark {
+	position:absolute;
+	left:489px;
+	top:1271px;
+	width:519px;
+	height:169px;
+	z-index:7;
+}
+#payment {
+	position:absolute;
+	left:558px;
+	top:951px;
+	width:452px;
+	height:199px;
+	z-index:8;
+}
+#signOrChop {
+	position:absolute;
+	left:14px;
+	top:1298px;
+	width:464px;
+	height:139px;
+	z-index:9;
+}
+#reportList {
+	position:absolute;
+	left:15px;
+	top:318px;
+	width:995px;
+	height:954px;
+	z-index:11;
+}
+</style>
