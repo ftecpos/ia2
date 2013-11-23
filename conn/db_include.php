@@ -1,5 +1,5 @@
 <?php
-require 'sql_connect.php';
+require_once 'sql_connect.php';
 $db = new sql_connect("localhost", "root", "qqqwdresa", "3shop");
 
 unset($CFG);
@@ -11,7 +11,7 @@ $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'localhost';
 $CFG->dbname    = 'moodle';
 $CFG->dbuser    = 'root';
-$CFG->dbpass    = 'rootpass';
+$CFG->dbpass    = '';
 $CFG->prefix    = 'mdl_';
 $CFG->dboptions = array (
   'dbpersist' => 0,

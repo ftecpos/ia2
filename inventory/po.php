@@ -22,30 +22,6 @@ $('#po_updateforshop_form').dialog('distory');
                 var poshopfor = $('#po_updateforshop_shop #shop_list').val();
                 bValid = false;
                 if (poshopfor!=0){
-                    
-                    /*
-                    $.ajax({
-                        url: "../inventory/invGet.php?action=upposhopfor",
-                        cache: false,
-                        async: false,
-                        dataType: 'script',
-                        type:'GET',
-                        data: {	
-                            poshopfor : poshopfor,
-                        },
-                        error: function(xhr) {
-                            alert('Ajax request Error!!!!!');
-                        },
-                        success: function(response) {
-                            if(upPoState[0]==0)
-                                $("#si_co_errMsg").html("員工編號不存在").css({"display":"block","color":"red"}).delay(1000).fadeOut(300);
-                            else if(upPoState[0]==1){
-                                $("#si_co_form").dialog("close");
-                                findPOHead($('#si_poNo').val());
-                            }
-                        },
-                    });//----End of ajax------
-                    */
                    $('#costretailid').val(poshopfor);
                    $(this).dialog("close");
                 } else {
@@ -55,8 +31,8 @@ $('#po_updateforshop_form').dialog('distory');
             "取消": function() {
                 $('.rightContent').html(null);
                 $(this).dialog("close");
-            },
-        },
+            }
+        }
     };
 $('#po_updateforshop_form').dialog(po_updateforshop_option);
 $('.ui-widget-header').hide();

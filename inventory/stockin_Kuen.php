@@ -1,4 +1,4 @@
-<?php include("../check_login.php");?>
+﻿<?php include("../check_login.php");?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -40,13 +40,14 @@ var tempPoNoVal;
         <label for="shopId" class="gg">Shop ID : </label>
 		<input type="text" id="shopId" class="inv_col shopId" maxlength="2" readonly="readonly"/>
 	</div>
-	
+	 
     <div id="si_fir_menu">Table只顯示未完成單據</div>
 	<div id="si_bottom"></div>
 	<div id="si_foot" style="display:none;">
     <table border="1" cellpadding="2px" style="float:left;">
     	<tr><td style="width:130px; background-color:#CCC;">PO No.</td><td style="width:180px; background-color:#999;"><div id="si_bot_poNo"></div></td>
-        	<td style="background-color:#CCC;">開單員工</td><td style="background-color:#999;"><div id="si_bot_cstaff"></div></td></tr>
+            <td style="background-color:#CCC;">開單員工</td><td style="background-color:#999;"><div id="si_bot_cstaff"></div></td>
+            <td style="background-color:#CCC;">PO指定收貨店舖</td><td style="background-color:#999;"><div id="si_forshop"></div></td></tr>
         <tr><td style="background-color:#CCC;">PO Create Date</td>
         	<td style="background-color:#999;"><div id="si_bot_pcd"></div></td>
         	<td style="background-color:#CCC;">開單位置</td><td style="background-color:#999;"><div id="si_bot_plocation"></div></td></tr>
@@ -67,35 +68,92 @@ var tempPoNoVal;
 <div id="moreGoodsReceForm" title="配件進貨數量" style="display:none;">
 
 <div id="moreGoodsReceFormBottom">
-	<span id="qtyMsg">不可超過</span><span id="maxQtyMsg_z"></span>
-	<fieldset>
-    	<table cellpadding="5">
-        	<tr>
-            	<td><label for="recQty" >進貨數量   </label></td>
-                <td>
-	                <input type="text" name="recQty" id="recQty" onkeyup="return validateNumber($(this),value)"
-						class="text ui-widget-content ui-corner-all" maxlength="5"
-						onclick="select()"/>
-                </td>
-            </tr>
-        </table>
+    <span id="qtyMsg">不可超過</span><span id="maxQtyMsg_z"></span>
+    <fieldset>
+    <table cellpadding="5">
+        <tr>
+            <td><label for="recQty" >進貨數量   </label></td>
+            <td>
+                <input type="text" name="recQty" id="recQty" onkeyup="return validateNumber($(this),value)"
+                    class="text ui-widget-content ui-corner-all" maxlength="5"
+                    onclick="select()"/>
+            </td>
+        </tr>
+    </table>
     </fieldset>
 
 </div>
 </div>
 
 <div id="phoneReceForm" title="電話進貨數量" style="display:none;">
-	<div id="phoneReceLeft"></div>
+    <div id="phoneReceLeft"></div>
     <div id="phoneReceTableArea"></div>
 </div>
 
 <div id="si_co_form" title="強制完結入貨" style="display:none;">
-	<div id="si_co_form_bottom">
-            
-	</div>
+	<div id="si_co_form_bottom"></div>
+</div>
+
+<div id="si_dnno_form" title="Please inout dn No." style="display:none;">
+    <div style="padding:1.2em;">DN No.<input type="text" id="si_dnno_form_dn_no" placeholder="Enter Delivery Note No."/></div>
+    <input type="hidden" id="si_dnno_form_input_dnno" />
+    <input type="hidden" id="si_dnno_form_input_pono" />
 </div>
 
 <script>
+$('#si_dnno_form').dialog('distory');
+    var si_dnno_form_option = {
+        autoOpen:false,  //defult must be false
+        height: 125,
+        width: 340,
+        closeOnEscape: true,
+        modal: true,
+        resizable: false,
+        //close : function(){ $('.rightContent').html(null);},
+        buttons : {
+            "確定": function() {
+                
+                var _dnno = $('#si_dnno_form #si_dnno_form_dn_no').val();
+                var _pnno = $('#si_dnno_form #si_dnno_form_input_pono').val();
+                
+                bValid = false;
+                if (_dnno!=0){
+                   $('#si_dnno_form_input_dnno').val(_dnno);
+                   change_loading();
+                   //$(this).dialog("close");
+                   add_transfer_from_po(_pnno, _dnno);
+                   return false;
+                } else {
+                    alert("Please enter dn No.");
+                }
+            },
+            "取消": function() {
+                $(this).dialog("close");
+            }
+        },
+        close :function() {
+            var _dnno = $('#si_dnno_form #si_dnno_form_dn_no');
+            _dnno.val("");
+            $('#si_dnno_form').dialog(si_dnno_form_option);
+            
+        }
+    };
+$('#si_dnno_form').dialog(si_dnno_form_option);
+function change_loading(){
+    $('#si_dnno_form').dialog("option", "buttons", [{text:"Loadind"}]);
+}
+$('.ui-widget-header').hide();
+$('#si_dnno_form_bottom')
+    .html('<fieldset>'+
+            '<table cellpadding="5">'+
+            '   <tr>'+
+            '       <td><label for="po_updateforshop_shop" >店舗   </label></td>'+
+            '       <td><div id="po_updateforshop_shop" ></div></td>'+
+            '   </tr>'+
+            '</table>'+
+            '</fieldset>'+
+            '<div id="po_updateforshop_errMsg"></div>');
+        
 function checkQty(recQty){
 	var temppoNo=$('#si_bot_poNo').html();
 	var needToCut=temppoNo.indexOf('-');
@@ -114,9 +172,9 @@ function checkQty(recQty){
 			async: false,
 			dataType: 'html',
 			type:'GET',
-			data: {	upD_po_State_no:3,
-					poNo:finalpoNo,
-					modify_by:$('#siRec_staff').val(),
+			data: {	upD_po_State_no : 3,
+                                           poNo : finalpoNo,
+				      modify_by : $('#siRec_staff').val(),
 					},
 			error: function(xhr) {
 				alert('Ajax request Error!!!!!');
@@ -249,45 +307,44 @@ function cutPoNo(poNo){
 	var after_cut = poNo.substring(_idx_cut+1,poNo_length);
 	return after_cut;
 }
-function recGoods(podNo,qty,accphone,incost,recedQty){
-		tempRecedQty=recedQty;
-		tempRecqty=qty;
-		temppodNo=podNo;
-	if(accphone== 0){ //0 是acc 1是phone
-            $('#moreGoodsReceForm').dialog('distory');
-            var dialogOption16 = {
-                autoOpen:false,  //defult must be false
-                height: 170,
-                width: 350,
-                closeOnEscape: true,
-                modal: true,
-                resizable: false,
-                async: false,
-                beforeOpen: function(){
-                    $('#maxQtyMsg_z').html(qty);
+function recGoods(podNo,qty,accphone,incost,recedQty, forshop){
+    tempRecedQty=recedQty;
+    tempRecqty=qty;
+    temppodNo=podNo;
+    tempforshop=forshop;
+    if(accphone== 0){ //0 是acc 1是phone
+        $('#moreGoodsReceForm').dialog('distory');
+        var dialogOption16 = {
+            autoOpen:false,  //defult must be false
+            height: 170,
+            width: 350,
+            closeOnEscape: true,
+            modal: true,
+            resizable: false,
+            async: false,
+            beforeOpen: function(){
+                $('#maxQtyMsg_z').html(qty);
+            },
+            open: function () {
+                $('#maxQtyMsg_z').html(qty);
+                $(this).dialog(dialogOption16); //initializ the dailog once again to clean the data that saved at before
+            },
+            close: function () {
+                tempRecqty=0;
+                $('#recQty').val(null);
+                $('maxQtyMsg_z').html(null);
+                $('#maxQtyMsg_z').removeClass("newClass");
+                $('#qtyMsg').removeClass("newClass");
+            },
+            buttons : {
+                "確認": function() {
+                    subStInQty();
                 },
-                open: function () {
-                    $('#maxQtyMsg_z').html(qty);
-                    $(this).dialog(dialogOption16); //initializ the dailog once again to clean the data that saved at before
+                "取消": function() {
+                    $( this ).dialog( "close" );
                 },
-                close: function () {
-                    tempRecqty=0;
-                    $('#recQty').val(null);
-                    $('maxQtyMsg_z').html(null);
-                    $('#maxQtyMsg_z').removeClass("newClass");
-                    $('#qtyMsg').removeClass("newClass");
-                },
-                beforeClose: function() {
-                },
-                buttons : {
-                    "確認": function() {
-                        subStInQty();
-                    },
-                    "取消": function() {
-                        $( this ).dialog( "close" );
-                    },
-                },
-            }; //end of dialogOption16
+            },
+        }; //end of dialogOption16
 
             $('#moreGoodsReceForm').dialog(dialogOption16);
     //---End of moreGoodsReceForm dialog------------------------------
@@ -326,13 +383,14 @@ function recGoods(podNo,qty,accphone,incost,recedQty){
 									
 		document.getElementById('ph_recImei').onkeydown = addImeiToList;
 		
-		$('#phoneReceTableArea').html('<table  width="100%" id="phoneReceTable" border="1">'+
-											'<tr>'+
-												'<td style="width: 25px">No.</td>'+
-												'<td style="width:150px; text-align: center;">IMEI</td>'+
-												'<td style="width:100px;text-align: center;">Del</td>'+
-											'</tr>'+
-										'</table>');
+		$('#phoneReceTableArea')
+                    .html('<table  width="100%" id="phoneReceTable" border="1">'+
+                            '<tr>'+
+                                '<td style="width: 25px">No.</td>'+
+                                '<td style="width:150px; text-align: center;">IMEI</td>'+
+                                '<td style="width:100px;text-align: center;">Del</td>'+
+                            '</tr>'+
+                          '</table>');
 		getPhoneDetail(temppodNo);
 		$('#ph_pono').html($('#si_bot_poNo').html());
 		$('#ph_podno').html(temppodNo);

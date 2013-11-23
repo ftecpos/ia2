@@ -10,60 +10,59 @@ function subStInQtyByEnt(e){
 }//end of subStInQtyByEnt(e)
 
 function createRecNo(pod_no){
-	$.ajax({
-		url: "../inventory/invGet.php?action=createRecNo",
-		cache: false,
-		dataType: 'html',
-		type:'GET',
-		async: false,
-		data: {
-			pod_no:pod_no,
-			staffid:$('#siRec_staff').val(),
-		},
-		error: function(xhr) {
-			alert('Ajax request Error!!!!!');
-		},
-		success: function(response) {
-			sinno_ref_no = response;
-		}
-	});//----End of ajax------
+    $.ajax({
+        url: "../inventory/invGet.php?action=createRecNo",
+        cache: false,
+        dataType: 'html',
+        type:'GET',
+        async: false,
+        data: {
+            pod_no:pod_no,
+            staffid:$('#siRec_staff').val(),
+        },
+        error: function(xhr) {
+            alert('Ajax request Error!!!!!');
+        },
+        success: function(response) {
+            sinno_ref_no = response;
+        }
+    });//----End of ajax------
 }
 
 function subStInQty(){
-	if($('#recQty').val()!=null&&$('#recQty').val()<=tempRecqty){
-		checkQty($('#recQty').val());
-		createRecNo(temppodNo);
-		//alert(sinno_ref_no);
-			$.ajax({
-				url: "../inventory/invGet.php?action=recGoods",
-				cache: false,
-				dataType: 'html',
-				type:'GET',
-				data: {
-					podNo:temppodNo,
-					rec_Qty:$('#recQty').val(),
-					poDate:$('#si_bot_pcd').html(),
-					staffid:$('#siRec_staff').val(),
-					shopno:shopno,
+    if($('#recQty').val()!=null&&$('#recQty').val()<=tempRecqty){
+        checkQty($('#recQty').val());
+        createRecNo(temppodNo);
+        $.ajax({
+            url: "../inventory/invGet.php?action=recGoods",
+            cache: false,
+            dataType: 'html',
+            type:'GET',
+            data: {
+                podNo:temppodNo,
+                rec_Qty:$('#recQty').val(),
+                poDate:$('#si_bot_pcd').html(),
+                staffid:$('#siRec_staff').val(),
+                shopno:shopno,
 	//				po_State_no:po_State_no,
-					poNo:tempPoNoVal,
-					sinno_ref_no:sinno_ref_no,
-					
-				},
-				error: function(xhr) {
-					alert('Ajax request Error!!!!!');
-				},
-				success: function(response) {
-					findPOHead($('#si_poNo').val());
-				}
-			});//----End of ajax------
-		$('#moreGoodsReceForm').dialog("close");
-	} else {
-		$('#maxQtyMsg_z').addClass( "newClass", 100 );
-		$('#qtyMsg').addClass( "newClass", 100 );
-		$('#recQty').select();
-	}
-}// end of subStInQty() function
+                poNo:tempPoNoVal,
+                sinno_ref_no:sinno_ref_no,
+                forshop:tempforshop
+            },
+            error: function(xhr) {
+                alert('Ajax request Error!!!!!');
+            },
+            success: function(response) {
+                findPOHead($('#si_poNo').val());
+            }
+        });//----End of ajax------
+        $('#moreGoodsReceForm').dialog("close");
+    } else {
+        $('#maxQtyMsg_z').addClass( "newClass", 100 );
+        $('#qtyMsg').addClass( "newClass", 100 );
+        $('#recQty').select();
+    }
+}// end of subStInQty(forshop) function
 function recMobile(){
 	var imeiArrLength = imeiArray.length;
 	createRecNo(temppodNo);
@@ -168,48 +167,87 @@ function findPOHead(poNo){
                 po_State_no=tt[8];
                 $('#totalNonRecQty').html(tt[9]);
                 $('#totalRecQty').html(tt[10]);
+                $('#si_forshop').html(tt[14]);
 
                 if(po_State_no==1){
-                    $('#si_but_area').html('<input type="button" value="設定PO指定收貨店舖" class="si_but" onclick="po_updateforshop(\''+tt[1]+'\')"/>');
+                    //$('#si_but_area').html('<input type="button" value="設定PO指定收貨店舖" class="si_but" onclick="po_updateforshop(\''+tt[1]+'\')"/>');
                 } else if(po_State_no==2){
-                    $('#si_but_area').html('<input type="button" value="Close Order" class="si_but" onclick="si_co(\''+tt[1]+'\')"/>');
+                    if(tt[14] == localStorage.shopid){
+                        $('#si_but_area').html('<input type="button" value="Close Order" class="si_but" onclick="si_co(\''+tt[1]+'\')"/>');
+                    }
+                } else if(po_State_no==3){
+                    if(tt[14] != localStorage.shopid){
+                        $('#si_but_area').html('<input type="button" value="新增轉貨單到指定店舖" class="si_but" onclick="get_dnno_from_po(\''+tt[1]+'\')"/>');
+                    }
                 } else if(po_State_no==4){
-                    $('#si_but_area').html('<table border="1" cellpadding="2px" style="float:left;">'+
-                                                '<tr><td style="width:130px; background-color:#CCC;">Modify By</td><td style="width:180px; background-color:#999;"><div id="">'+tt[11]+'</div></td>'+
-                                                '<tr><td style="width:130px; background-color:#CCC;">Modify Date</td><td style="width:180px; background-color:#999;"><div id="">'+tt[13]+'</div></td>'+
-                                                '<tr><td style="width:130px; background-color:#CCC;">Description</td><td style="width:180px; background-color:#999;"><div id="">'+tt[12]+'</div></td>'+
-                                            '</table>');
+                    $('#si_but_area')
+                        .html('<table border="1" cellpadding="2px" style="float:left;">'+
+                                '<tr><td style="width:130px; background-color:#CCC;">Modify By</td><td style="width:180px; background-color:#999;"><div id="">'+tt[11]+'</div></td>'+
+                                '<tr><td style="width:130px; background-color:#CCC;">Modify Date</td><td style="width:180px; background-color:#999;"><div id="">'+tt[13]+'</div></td>'+
+                                '<tr><td style="width:130px; background-color:#CCC;">Description</td><td style="width:180px; background-color:#999;"><div id="">'+tt[12]+'</div></td>'+
+                              '</table>');
                 } else
                     $('#si_but_area').html(null);
             } else {
                 $('#si_bottom').html('<p style="color:red; font-size:30px;">Record NOT Find</p>');
                 $('#si_foot').css('display','none');
             }
-				
+
 				//$('#si_bottom').html(response);
         },
     });//end of ajax
 } //end of findPOHead(poNo)
+function get_dnno_from_po(pono){
+    $('#si_dnno_form_input_pono').val(pono);
+    $('#si_dnno_form').dialog('open');
+}
+function add_transfer_from_po(pono, dnno){
+    $.ajax({
+        url: "../inventory/invlib.php?action=add_transfer_from_po",
+        cache: false,
+        async: false,
+        dataType: 'json',
+        type:'GET',
+        data: {	
+            pono:pono,
+            dnno:dnno
+        },
+        error: function(xhr) {
+            alert('Ajax request Error!!!!!');
+        },
+        success: function(response) {
+            console.log(response);
+            if(response.error){
+                alert(response.error);
+                $('#si_dnno_form').dialog('close');
+            }
+            if(response.success){
+                $('#si_dnno_form').dialog('close');
+                findPOHead(pono);
+            }
+        }
+    });//----End of ajax------
+}
 
 function recTransfer(trNo){
 $('#button_inTable').html(null);
-	$.ajax({
-		url:"../inventory/invTrans.php?action=upTrans",
-		cache: false,
-		dataType: 'script',
-		type:'GET',
-		async: false,
-		data:{	
-				retailShop_no:shopno,
-				transfer_no:trNo,
-				userLoginId:$('#siRec_staff').val(),
-			 },
-		error: function(xhr){ alert('Ajax request Error!!!!!');	},
-		success: function(response) {
-			$('#tr_bot_trState').html('已收貨');
-			//alert(response);
-		},
-	});//end of ajax
+    $.ajax({
+        url:"../inventory/invTrans.php?action=upTrans",
+        cache: false,
+        dataType: 'script',
+        type:'GET',
+        async: false,
+        data:{	
+            retailShop_no:shopno,
+            transfer_no:trNo,
+            userLoginId:$('#siRec_staff').val(),
+        },
+        error: function(xhr){ alert('Ajax request Error!!!!!');	},
+        success: function(response) {
+            $('#tr_bot_trState').html('已收貨');
+                //alert(response);
+        },
+    });//end of ajax
 }
 
 function findTrDetail(trNo){
@@ -467,51 +505,46 @@ function si_co(poNo){
 	$('#si_co_date').val(date);
 	
 	$('#si_co_form').dialog('open');
-	$('#si_co_desc').focus();
-	
-	
+	$('#si_co_desc').focus();	
 }
 
 function dend_submit(){
-	var arr = $('#dend_table').find("[class*=asdd]").get();
-	$.each(arr, function(){
-		if(checknum(this.value)){
-			$("#"+this.id).css("background","#FFF");
-			$("#"+this.id).parent().find("[id*=errorMsg]").html('');
-			//alert('OK');
-		} 
-		else{
-			var id=this.id;
-			//alert(this.id+'cannot be null');
-			$("#"+this.id).css("background","#FFA3AA");
-			$("#"+this.id).parent().find("[id*=errorMsg]").html('請輸入金額').css("color","#FFA3AA");
-			exit(0);
-		}
-		
-		 var checksame_1=$("#"+this.id).parent().parent().find("[class*=ssdd]").html();
-		 var checksame_s2 = parseFloat(this.value);
-		 checksame_s2 = checksame_s2.toFixed(1);
-		
-		if(checksame_1==checksame_s2){
-		} else{
-			$("#"+this.id).parent().find("[id*=errorMsg]").html('金額不正確').css("color","#FFA3AA");
-			exit(0);
-		}
-			
-	});
-	$('#dend_confirm_form').dialog('open');
-	
-	var dend_table_length = $('#dend_table').find("[class*=asdd]").size();
-		sendToServer='';
-	for(i=0;i<dend_table_length;i++){
-		sendToServer +=arr[i].id+':'+arr[i].value;
-		
-		if(i!=(dend_table_length-1))
-			sendToServer+=',';
-	}
-	//alert(sendToServer);
-	
-	
+    var arr = $('#dend_table').find("[class*=asdd]").get();
+    $.each(arr, function(){
+        if(checknum(this.value)){
+            $("#"+this.id).css("background","#FFF");
+            $("#"+this.id).parent().find("[id*=errorMsg]").html('');
+            //alert('OK');
+        } else{
+            var id=this.id;
+            //alert(this.id+'cannot be null');
+            $("#"+this.id).css("background","#FFA3AA");
+            $("#"+this.id).parent().find("[id*=errorMsg]").html('請輸入金額').css("color","#FFA3AA");
+            exit(0);
+        }
+
+        var checksame_1=$("#"+this.id).parent().parent().find("[class*=ssdd]").html();
+        var checksame_s2 = parseFloat(this.value);
+        checksame_s2 = checksame_s2.toFixed(1);
+
+        if(checksame_1==checksame_s2){
+        } else{
+            $("#"+this.id).parent().find("[id*=errorMsg]").html('金額不正確').css("color","#FFA3AA");
+                exit(0);
+        }
+    });
+    $('#dend_confirm_form').dialog('open');
+
+    var dend_table_length = $('#dend_table').find("[class*=asdd]").size();
+            sendToServer='';
+    for(i=0;i<dend_table_length;i++){
+        sendToServer +=arr[i].id+':'+arr[i].value;
+
+        if(i!=(dend_table_length-1)){
+            sendToServer+=',';
+        }
+    }
+    //alert(sendToServer);
 }
 
 

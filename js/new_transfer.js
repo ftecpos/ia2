@@ -4,38 +4,38 @@ function addTransfer(){
     if(!checkTransferShopList() || !checkFtecdnno(shopno)){
         return false;
     }
-        $('#addTransBut').html(null);
-        var shopInfoObj = new Object();
-        shopInfoObj.shopno = shopno;
-        shopInfoObj.shopid = shopid;
-        shopInfoObj.staff_id=$('#staff_id').html();
-        shopInfoObj.staff_no=$('#staff_no').html();
-        shopInfoObj.toRetail=$('#shop_list').val();
-        shopInfoObj.ftecdnno=$('#dn_no').val();
+    //$('#addTransBut').html(null);
+    var shopInfoObj = new Object();
+    shopInfoObj.shopno = shopno;
+    shopInfoObj.shopid = shopid;
+    shopInfoObj.staff_id=$('#staff_id').html();
+    shopInfoObj.staff_no=$('#staff_no').html();
+    shopInfoObj.toRetail=$('#shop_list').val();
+    shopInfoObj.ftecdnno=$('#dn_no').val();
 		
 		
-            $.ajax({
-                url: "../inventory/invTrans.php?action=addTrans",
-                cache: false,
-                dataType: 'html',
-                type:'POST',
-                data: {
-                        shopInfoObj:shopInfoObj,
-                        transferGoodsOjbArrList : JSON.stringify(transferGoodsOjbArrList),
-                },
-                error: function(xhr) {
-                        alert('Ajax request Error!!!!!');
-                },
-                statusCode: {
-                        404: function() {
-                                alert('page not found');
-                        }
-                },
-                success: function(response) { 
-                        //alert(response);
-                        call_new_transfer();
-                }
-            });//----End of ajax------
+    $.ajax({
+        url: "../inventory/invTrans.php?action=addTrans",
+        cache: false,
+        dataType: 'html',
+        type:'POST',
+        data: {
+            shopInfoObj:shopInfoObj,
+            transferGoodsOjbArrList : JSON.stringify(transferGoodsOjbArrList),
+        },
+        error: function(xhr) {
+            alert('Ajax request Error!!!!!');
+        },
+        statusCode: {
+            404: function() {
+                alert('page not found');
+            }
+        },
+        success: function(response) { 
+            //alert(response);
+            call_new_transfer();
+        }
+    });//----End of ajax------
     
 }
 function addMobileTransfer(){
@@ -118,7 +118,7 @@ function checkTransQty(goodsTransferForm_maxqty){
 		$('#transQty').select();
 		return false;
 	}
-}// end of subStInQty() function
+}
 
 function findTransAccDetail(e){
     PID = $("#TranspID").val();
@@ -126,7 +126,7 @@ function findTransAccDetail(e){
     if(e.which==13){
     }
     if(PID==''){
-            $('#findTransAccBottom').load("../sales/salesGet.php?action=getTransAccList&pageNo=0&limitShopno="+shopno);
+            $('#findTransAccBottom').load("../sales/salesGet.php?action=getTransAccList&pageNo=0&limitShopno="+shopno+"&fortransfunction=1");
     }
 }
 
@@ -142,27 +142,19 @@ function getTransAccList(_shortByA,_shortByB){
         cache:false,
         dataType:'html',
         type:'GET',
-        data:{ pageNo : 0,
-                shortByA : _shortByA,
-                shortByB : _shortByB,
-            limitShopno : shopno},
+        data:{     pageNo : 0,
+                 shortByA : _shortByA,
+                 shortByB : _shortByB,
+              limitShopno : shopno,
+         fortransfunction : 1
+        },
         error:function(xhr){alert('Ajax request Error!!!');},
         success:function(response){
                 $('#findTransAccBottom').html(response);
         }
     });
-        
-      /*  
-	if(checkLimit())
-		$('#findTransAccBottom').load("../sales/salesGet.php?action=getTransAccList&pageNo=0&shortByA="+shortByA+"&shortByB="+shortByB+"&limitShopno="+shopno);	
-	else
-		$('#findTransAccBottom').load("../sales/salesGet.php?action=getTransAccList&pageNo=0&shortByA="+shortByA+"&shortByB="+shortByB+"&limitShopno="+shopno);
-            */
 }
-//- - - -  end of getTransAccList() - - - - - -
 
-
-//-------findTransAcc() - - - - - - -
 function findTransAcc(){
 	$('#findTransAccFirMenu').html(null);
 	$('#findTransAccSecMenu').html(null);
@@ -184,7 +176,7 @@ function findTransAcc(){
 		
 b=0;
 
-	$('#findTransAccBottom').load("../sales/salesGet.php?action=getTransAccList&pageNo=0&limitShopno="+shopno);
+	$('#findTransAccBottom').load("../sales/salesGet.php?action=getTransAccList&pageNo=0&limitShopno="+shopno+"&fortransfunction=1");
 	addFindAccFoot();
 
 	$('#findTransAccForm').dialog('open');

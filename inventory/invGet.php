@@ -451,42 +451,47 @@ switch($_GET['action']){
 		$db->query($sql);
 		break;
 	case 'recGoods':
-		$podNo=$_GET['podNo'];
-		$rec_Qty=$_GET['rec_Qty'];
-		$poDate=$_GET['poDate'];
-		$sinno_ref_no=$_GET['sinno_ref_no'];
+            $podNo        = $_GET['podNo'];
+            $rec_Qty      = $_GET['rec_Qty'];
+            $poDate       = $_GET['poDate'];
+            $sinno_ref_no = $_GET['sinno_ref_no'];
+            $isforshop    = $_GET['forshop'];
 		
-		$staffid=$_GET['staffid'];
-		$sql="select staff_no from staff where staff_id='$staffid'";
-		$staffno= $db->getOne($sql);
+            $staffid=$_GET['staffid'];
+            $sql="select staff_no from staff where staff_id='$staffid'";
+            $staffno= $db->getOne($sql);
 
-		$shopno=$_GET['shopno'];
-		$rec_date=date("Y-m-d H:i:s");
-		$sql="select * from poDetail where poDetail_no = $podNo";
+            $shopno=$_GET['shopno'];
+            $rec_date=date("Y-m-d H:i:s");
+            $sql="select * from poDetail where poDetail_no = $podNo";
 		
-		$poNo=$_GET['poNo'];
+            $poNo=$_GET['poNo'];
 
 
-		$row = $db->getrow($sql);
-		$pod_qty=$row['qty'];
-		$pod_acc_no=$row['acc_no'];
+            $row = $db->getrow($sql);
+            $pod_qty=$row['qty'];
+            $pod_acc_no=$row['acc_no'];
 			
-		$pod_iprice=$row['cost'];
-		$ava_bal=$rec_Qty;
+            $pod_iprice=$row['cost'];
+            $ava_bal=$rec_Qty;
 		
-		$stockin_no=0;
-		if($pod_acc_no!=null){
-			$sql="INSERT INTO stockin
-				(`poDetail_no`, `staff_no`, `acc_no`, `retailShop_no`, `rec_qty`, `rec_date`, `po_date`, `iprice`, `ava_bal`,`sinno_ref_no`) 
-				VALUES ($podNo, $staffno, $pod_acc_no, $shopno, $rec_Qty, '$rec_date', '$poDate', '$pod_iprice', $ava_bal,$sinno_ref_no)";
-			$db->query($sql);
-			
-			
-		}
-		break;
+            $stockin_no=0;
+            if($pod_acc_no!=null){
+                $sql="INSERT INTO stockin
+                        (`poDetail_no`, `staff_no`, `acc_no`, `retailShop_no`, `rec_qty`,
+                         `rec_date`, `po_date`, `iprice`, `ava_bal`,`sinno_ref_no`,
+                         `isforshop`) 
+                      VALUES ($podNo, $staffno, $pod_acc_no, $shopno, $rec_Qty,
+                            '$rec_date', '$poDate', '$pod_iprice', $ava_bal,$sinno_ref_no,
+                            '$isforshop')";
+                $db->query($sql);
+            }
+            print_r($sql);
+            break;
 	case 'getPOD':
 		$poNo=$_GET['poNo'];
-		$sql1="select p.po_no, p.createDate, staff_id, supplierName, stateName, p.poState_no, retail_id, modify_by, po_desc,modify_date
+		$sql1="select p.po_no, p.createDate, staff_id, supplierName, stateName, p.poState_no, retail_id,
+                        modify_by, po_desc,modify_date, forshop
 				from po p, staff st, supplier sp, poState ps, retailShop rs
 				where p.staff_no = st.staff_no
 				and p.supplier_no = sp.supplier_no
@@ -510,6 +515,7 @@ switch($_GET['action']){
 		
 		$po_desc=$row1['po_desc'];
 		$modify_date=$row1['modify_date'];
+		$forshop=$row1['forshop'];
 		
 		
 	
@@ -523,10 +529,10 @@ switch($_GET['action']){
 				$detail_of_po_inTable .='<td>poDetail_no</td>';
 				$qtyMsg='<td>Qty (尚欠數量)</td>';
 			}
-		$detail_of_po_inTable .=	'<td>Product ID</td>'.
-								 	'<td>Product Name</td>'.$qtyMsg.
-									'<td>Cost</td><td>Total Cost</td>'.
-									'</tr>';
+		$detail_of_po_inTable .= '<td>Product ID</td>'.
+                                         '<td>Product Name</td>'.$qtyMsg.
+                                         '<td>Cost</td><td>Total Cost</td>'.
+                                         '</tr>';
 		$sql2="select * from podetail where po_no='$poNo'";
 		$result2=$db->query($sql2);
 		$totalNonRecQty=0;
@@ -563,7 +569,7 @@ switch($_GET['action']){
 						if($poState_no!=4){
 							$detail_of_po_inTable .="<td>";
 							$detail_of_po_inTable .=$row2['poDetail_no'].
-							'<input type=\"button\" value=\"收貸\" onclick=\"recGoods('.$row2['poDetail_no'].','.$nonRecQty.','.$acc_or_phone.','.$cost.','.$recedQty.')\" />';
+							'<input type=\"button\" value=\"收貸\" onclick=\"recGoods('.$row2['poDetail_no'].','.$nonRecQty.','.$acc_or_phone.','.$cost.','.$recedQty.','.$forshop.')\" />';
 							$detail_of_po_inTable .="</td>";
 						}else {
 							$detail_of_po_inTable .='<td style=\"width:210px; color:#FF637D;\">Receive Not Complete';
@@ -593,9 +599,11 @@ switch($_GET['action']){
 			$tempPoNo = $poNo;
 			$poNo = getPoNo($tempPoNo);
 			
-			echo "var tt =new Array(\"$numOfRow\",\"$poNo\",\"$createDate\",\"$staff_id\",\"$supplierName\",\"$stateName\",
-								\"$retail_id \",\"$detail_of_po_inTable \",\"$poState_no\",\"$totalNonRecQty\",\"$totalRecQty\",
-								\"$modify_by\",\"$po_desc\",\"$modify_date\");";
+                        //get retail_id
+                        $forshop = get_retail_id($forshop);
+			echo "var tt =new Array(\"$numOfRow\",\"$poNo\",\"$createDate\",\"$staff_id\",\"$supplierName\",
+                                                \"$stateName\",\"$retail_id \",\"$detail_of_po_inTable \",\"$poState_no\",\"$totalNonRecQty\",
+                                                \"$totalRecQty\",\"$modify_by\",\"$po_desc\",\"$modify_date\", \"$forshop\");";
 		}//end of if
 		break;
 		
@@ -1934,6 +1942,14 @@ function check_is_office(){
 }
 function get_retail_no(){
 	return $_SESSION['retail_no'];
+}
+function get_retail_id($shopno){
+	global $db;
+	$temp_shopno = $shopno;
+	$sql="select retail_id from retailshop where retailshop_no = '$temp_shopno'";
+	$retail_id= $db->getOne($sql);
+	
+	return $retail_id;	
 }
 function getPoNo($po_no){
 	$tempPoNo=$po_no;

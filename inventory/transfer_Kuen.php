@@ -370,79 +370,77 @@ function cutPoNo(poNo){
 	return after_cut;
 }
 function recGoods(podNo,qty,accphone,incost,recedQty){
-		tempRecedQty=recedQty;
-		tempRecqty=qty;
-		temppodNo=podNo;
-	if(accphone== 0){ //0 是acc 1是phone
-		$('#moreGoodsReceForm').dialog('distory');
-			var dialogOption16 = {
-				autoOpen:false,  //defult must be false
-				height: 170,
-				width: 350,
-				closeOnEscape: true,
-				modal: true,
-				resizable: false,
-				async: false,
-				beforeOpen: function(){
-					$('#maxQtyMsg_z').html(qty);
-				},
-				open: function () {
-					$('#maxQtyMsg_z').html(qty);
-					$(this).dialog(dialogOption16); //initializ the dailog once again to clean the data that saved at before
-				},
-				close: function () {
-					tempRecqty=0;
-					$('#recQty').val(null);
-					$('maxQtyMsg_z').html(null);
-					$('#maxQtyMsg_z').removeClass("newClass");
-					$('#qtyMsg').removeClass("newClass");
-				},
-				beforeClose: function() {
-				},
-				buttons : {
-					"確認": function() {
-						subStInQty();
-					},
-					"取消": function() {
-						$( this ).dialog( "close" );
-					},
-				},
-			}; //end of dialogOption16
+    tempRecedQty=recedQty;
+    tempRecqty=qty;
+    temppodNo=podNo;
+    if(accphone== 0){ //0 是acc 1是phone
+        $('#moreGoodsReceForm').dialog('distory');
+            var dialogOption16 = {
+                autoOpen:false,  //defult must be false
+                height: 170,
+                width: 350,
+                closeOnEscape: true,
+                modal: true,
+                resizable: false,
+                async: false,
+                beforeOpen: function(){
+                    $('#maxQtyMsg_z').html(qty);
+                },
+                open: function () {
+                    $('#maxQtyMsg_z').html(qty);
+                    $(this).dialog(dialogOption16); //initializ the dailog once again to clean the data that saved at before
+                },
+                close: function () {
+                    tempRecqty=0;
+                    $('#recQty').val(null);
+                    $('maxQtyMsg_z').html(null);
+                    $('#maxQtyMsg_z').removeClass("newClass");
+                    $('#qtyMsg').removeClass("newClass");
+                },
+                buttons : {
+                    "確認": function() {
+                        subStInQty();
+                    },
+                    "取消": function() {
+                        $( this ).dialog( "close" );
+                    },
+                },
+            }; //end of dialogOption16
 
-			$('#moreGoodsReceForm').dialog(dialogOption16);
+            $('#moreGoodsReceForm').dialog(dialogOption16);
 	//---End of moreGoodsReceForm dialog------------------------------
-			$('#moreGoodsReceForm').dialog('open');
+            $('#moreGoodsReceForm').dialog('open');
 	}
 	else {
 		$('#phoneReceLeft').html('<fieldset>'+
-									'<legend>電話資料</legend>'+
-									'    <table border="1" cellpadding="2px" style="float:left;" width"100%">'+
-									'		<tr><td style="width:110px; background-color:#9B9B9B;">Phone ID</td><td style="width:100px; background-color:#CCC;"><div id="ph_phID"></div></td>'+
-									'			<td style="width:110px; background-color:#9B9B9B;">牌子</td><td style="width:100px; background-color:#CCC;"><div id="ph_manu"></div></td></tr>'+
-									'		<tr><td style="background-color:#9B9B9B;">Phone Name</td>'+
-									'			<td td colspan="3" style="background-color:#CCC;"><div id="ph_name"></div></td></tr>'+
-									'		<tr><td style="background-color:#9B9B9B;">Color</td><td style="background-color:#CCC;"><div id="ph_color"></div></td>'+
-									'			<td style="background-color:#9B9B9B;">State</td><td style="background-color:#CCC;"><div id="ph_state"></div></td></tr>'+
-									'		<tr><td style="background-color:#9B9B9B;">原價</td><td style="background-color:#CCC;"><div id="ph_opri"></div></td>'+
-									'			<td style="background-color:#9B9B9B;">特價</td><td style="background-color:#CCC;"><div id="ph_spri"></div></td></tr>'+
-									'	</table>'+
-									'<div id=ph_typeNo style="display:none;"></div>'+
-									'</fieldset>'+
-									'<div class="underline" style="margin:10px 0 10px 0"></div>'+
-									'<fieldset>'+
-									'<legend>電話訂貨資料</legend>'+
-									'    <table border="1" cellpadding="2px" style="float:left;" width"100%">'+
-									'		<tr><td style="width:110px; background-color:#9B9B9B;">PO No.</td><td style="width:100px; background-color:#CCC;"><div id="ph_pono"></div></td>'+
-									'			<td style="width:110px; background-color:#9B9B9B;">POD No.</td><td style="width:100px; background-color:#CCC;"><div id="ph_podno"></div></td></tr>'+
-									'		<tr><td style="background-color:#9B9B9B;">Order Qty</td><td style="background-color:#CCC;"><div id="ph_oqty"></div></td>'+
-									'			<td style="background-color:#9B9B9B;">Cost</td><td style="background-color:#CCC;"><div id="ph_cost"></div></td></tr>'+
-									'	</table>'+
-									'</fieldset>'+
-									'<div class="underline" style="margin:10px 0 10px 0"></div>'+
-									'<label for="ph_recImei" class="tt">IMEI : </label>'+
-									'<input type="text" id="ph_recImei"  maxlength="15" onclick="select();" onkeyup="return validateNumber($(this),value)"/>'+
-									'<br /><sapn class="recQty_msg tau"></sapn><sapn id="tempListNum" class="tau" style="margin:0 0 0 50px;">列表中數量 : 0</sapn>'+
-									'<div class="err_msg tat" style="display:none;"></div>');
+                    '<legend>電話資料</legend>'+
+                    '    <table border="1" cellpadding="2px" style="float:left;" width"100%">'+
+                    '		<tr><td style="width:110px; background-color:#9B9B9B;">Phone ID</td><td style="width:100px; background-color:#CCC;"><div id="ph_phID"></div></td>'+
+                    '			<td style="width:110px; background-color:#9B9B9B;">牌子</td><td style="width:100px; background-color:#CCC;"><div id="ph_manu"></div></td></tr>'+
+                    '		<tr><td style="background-color:#9B9B9B;">Phone Name</td>'+
+                    '			<td td colspan="3" style="background-color:#CCC;"><div id="ph_name"></div></td></tr>'+
+                    '		<tr><td style="background-color:#9B9B9B;">Color</td><td style="background-color:#CCC;"><div id="ph_color"></div></td>'+
+                    '			<td style="background-color:#9B9B9B;">State</td><td style="background-color:#CCC;"><div id="ph_state"></div></td></tr>'+
+                    '		<tr><td style="background-color:#9B9B9B;">原價</td><td style="background-color:#CCC;"><div id="ph_opri"></div></td>'+
+                    '			<td style="background-color:#9B9B9B;">特價</td><td style="background-color:#CCC;"><div id="ph_spri"></div></td></tr>'+
+                    '	</table>'+
+                    '<div id=ph_typeNo style="display:none;"></div>'+
+                    '</fieldset>'+
+                    '<div class="underline" style="margin:10px 0 10px 0"></div>'+
+                    '<fieldset>'+
+                    '<legend>電話訂貨資料</legend>'+
+                    '    <table border="1" cellpadding="2px" style="float:left;" width"100%">'+
+                    '		<tr><td style="width:110px; background-color:#9B9B9B;">PO No.</td><td style="width:100px; background-color:#CCC;"><div id="ph_pono"></div></td>'+
+                    '			<td style="width:110px; background-color:#9B9B9B;">POD No.</td><td style="width:100px; background-color:#CCC;"><div id="ph_podno"></div></td></tr>'+
+                    '		<tr><td style="background-color:#9B9B9B;">Order Qty</td><td style="background-color:#CCC;"><div id="ph_oqty"></div></td>'+
+                    '			<td style="background-color:#9B9B9B;">Cost</td><td style="background-color:#CCC;"><div id="ph_cost"></div></td></tr>'+
+                    '	</table>'+
+                    '</fieldset>'+
+                    '<div class="underline" style="margin:10px 0 10px 0"></div>'+
+                    '<label for="ph_recImei" class="tt">IMEI : </label>'+
+                    '<input type="text" id="ph_recImei"  maxlength="15" onclick="select();" onkeyup="return validateNumber($(this),value)"/>'+
+                    '<br /><sapn class="recQty_msg tau"></sapn><sapn id="tempListNum" class="tau" style="margin:0 0 0 50px;">列表中數量 : 0</sapn>'+
+                    '<div class="err_msg tat" style="display:none;"></div>');
 
 		document.getElementById('ph_recImei').onkeydown = addImeiToList;
 		

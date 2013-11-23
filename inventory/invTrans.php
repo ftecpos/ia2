@@ -56,8 +56,12 @@ if (isset($_GET['action'])) {
                 } else { //if not 電話
                     $bcode = $transferGoodsOjbArrList_de[$r]->bcode;
                     $acc_no = getAccNo($bcode);
-
-                    $stockin_arr = getStockin($acc_no, $fromRetail_no);
+                    //2013-10-30
+                    //because is normal transfer, use 0 or it isforshop = self shop code
+                    $isforshop = array($_SESSION['retail_no'], 0); // 0=not point to any shop, 1= point to a retailshop
+                    $stockin_arr = getStockin($acc_no, $fromRetail_no, $isforshop);
+                    
+                    
                     $stockin_arr_length = count($stockin_arr);
                     if ($stockin_arr_length == 1) { //無交接
                         $stockIn_no = $stockin_arr->stockIn_no;
@@ -398,10 +402,11 @@ if (isset($_GET['action'])) {
             $shopno = $_GET['shopno'];
 
             $sql = "SELECT accName, barcode,acc_id, sum(ava_bal) as ava_bal, typeName, sprice,oprice
-				FROM accessories acc,stockin si, acctype act
-				WHERE si.retailShop_no = $shopno
-        		AND acc.acc_no = si.acc_no
-        		AND acc.accType_no = act.accType_no";
+                    FROM accessories acc,stockin si, acctype act
+                    WHERE si.retailShop_no = $shopno
+                    AND acc.acc_no = si.acc_no
+                    AND acc.accType_no = act.accType_no
+                    AND si.isforshop in ($shopno ,0)";
 
             if (isset($_GET['bcode']) && isset($_GET['qty'])) {
                 $bcode = $_GET['bcode'];
@@ -522,10 +527,21 @@ function getCost($poDetail_no) {
     return $cost;
 }
 
-function getStockin($acc_no, $shopno) {
+function getStockin($acc_no, $shopno, $isforshop) {
     global $db;
-
-    $sql = "select * from stockin where acc_no='$acc_no' and ava_bal>0 and retailShop_no=$shopno order by po_date";
+    if(!is_array($isforshop)){
+        $isforshop = $isforshop;
+    } else {
+        $isforshop = implode(",", $isforshop);
+    }
+    $sql = "SELECT * 
+            FROM stockin 
+            WHERE acc_no ='$acc_no' 
+            AND ava_bal>0 
+            AND retailShop_no = $shopno
+            AND isforshop in ( $isforshop )
+            ORDER BY po_date";
+    
     $result = $db->query($sql);
 
     $arr_obj = array();
