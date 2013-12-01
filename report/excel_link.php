@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!$_SESSION['retail_no']){
+    die();
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -96,11 +102,23 @@ call_datepicker();
     	<td><div align="right">報表類型：</div></td>
     	<td></td>
         <td><div align="center"><select id="reportType">
-        <option id="saleEX" value="saleEX">銷售報表</option>
-        <option id="inventoryEX" value="inventoryEX">存庫報表</option>
-        <option id="transferEX" value="transferEX">轉貨報表</option>
-        <option id="stockinEX" value="stockinEX">進貨報表</option>
-        <option id="incomeEX" value="incomeEX">收入報表</option>
+    <?php
+        switch ($_SESSION['retail_no']){
+            case 1:
+                echo '<option id="saleEX" value="saleEX">銷售報表</option>';
+                echo '<option id="inventoryEX" value="inventoryEX">存庫報表</option>';
+                echo '<option id="transferEX" value="transferEX">轉貨報表</option>';
+                echo '<option id="stockinEX" value="stockinEX">進貨報表</option>';
+                echo '<option id="incomeEX" value="incomeEX">收入報表</option>';
+            break;
+            case 10001:
+                echo '<option id="saleEX" value="saleEX">銷售報表</option>';
+                echo '<option id="inventoryEX" value="inventoryEX">存庫報表</option>';
+                echo '<option id="transferEX" value="transferEX">轉貨報表</option>';
+                echo '<option id="stockinEX" value="stockinEX">進貨報表</option>';
+            break;
+        }
+    ?>
         </select></div></td>
 	</tr>
 </table>

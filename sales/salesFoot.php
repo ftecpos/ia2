@@ -1,4 +1,9 @@
-<?php include("../check_login.php");?>
+<?php include("../check_login.php");
+
+if($_SESSION['retail_no']==''){
+    die();
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,33 +26,36 @@ $('#morepay').is(':checked');
 
 
 <body>
-<table class="ftltable" border="0">
-	<tr>
-		<td rowspan="2">
-			<label for="tol" class="tt">總數 : </label>
-			<input type="text" name="tol" id="tol" class="disabled" value="0.0" disabled="disabled" />
-		</td>
+<?php
 
-		<td>
-			<div id="payt">
-				<input type="radio" id="radio1" name="radio" value="1" onclick="showZ()" checked="checked"/><label for="radio1">現金</label>
-				<input type="radio" id="radio2" name="radio" value="2" onclick="showZ()"/><label for="radio2">EPS</label>
-				<input type="radio" id="radio5" name="radio" value="3" onclick="showZ()"/><label for="radio5">信用卡</label>
-				<!--<input type="radio" id="radio6" name="radio" value="4" onclick="showZ()" /><label for="radio6">八逹通</label>-->
-			</div>
-		</td>
-		
-		<td rowspan="2">
-			<input type="button" class="srbut" value="結帳" onclick="endOrder()">
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<!--<input type="checkbox" id="morepay" name="morepay"/><label for="morepay" id="morepay_l">多個付款方式</label>-->
-		</td>
-	</tr>
+if($_SESSION['retail_no']!='10001'){
 
-</table>
+    echo '<table class="ftltable" border="0">
+        <tr>
+            <td rowspan="2">
+                <label for="tol" class="tt">總數 : </label>
+                <input type="text" name="tol" id="tol" class="disabled" value="0.0" disabled="disabled" />
+            </td>
+            <td>
+                <div id="payt">
+                    <input type="radio" id="radio1" name="radio" value="1" onclick="showZ()" checked="checked"/><label for="radio1">現金</label>
+                    <input type="radio" id="radio2" name="radio" value="2" onclick="showZ()"/><label for="radio2">EPS</label>
+                    <input type="radio" id="radio5" name="radio" value="3" onclick="showZ()"/><label for="radio5">信用卡</label>
+                    <!--<input type="radio" id="radio6" name="radio" value="4" onclick="showZ()" /><label for="radio6">八逹通</label>-->
+                </div>
+            </td>
+            <td rowspan="2">
+                    <input type="button" class="srbut" value="結帳" onclick="endOrder()">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!--<input type="checkbox" id="morepay" name="morepay"/><label for="morepay" id="morepay_l">多個付款方式</label>-->
+            </td>
+        </tr>
+    </table>';
+}
+?>
 
 <table border="0" class="ftrtable">
 	<!--<tr>-->
@@ -62,16 +70,19 @@ $('#morepay').is(':checked');
 		<!--	</fieldset>	-->
 	<!--	</td>-->
 	<!--</tr>-->
-	<tr>
-		<td>
-
-		<!--	<legend >查找商品</legend>-->
-		<!--		<input type="button" value="查找商品"  style="background:#FFF; border-color:#FFFFFF;"/>-->
+    <tr>
+        <td>
+            <!--	<legend >查找商品</legend>-->
+            <!--		<input type="button" value="查找商品"  style="background:#FFF; border-color:#FFFFFF;"/>-->
 				<input type="button" value="查找單據" onclick="findInvoice()">
-				<input type="button" value="查找配件" onclick="findAcc();"/>
-				<input type="button" value="查找手機" onclick="findMobile()"/>
-				<input type="button" value="" onclick="addmin(0);" style="display: none"/>
-				<input type="button" value="" onclick="addmin(0);" style="display: none"/>
+        <?php
+            if($_SESSION['retail_no']!='10001'){
+                echo '<input type="button" value="查找配件" onclick="findAcc();"/>';
+                echo '<input type="button" value="查找手機" onclick="findMobile()"/>';
+                echo '<input type="button" value="" onclick="addmin(0);" style="display: none"/>';
+		echo '<input type="button" value="" onclick="addmin(0);" style="display: none"/>';
+            }
+        ?>
 		</td>
 	</tr>
 
@@ -552,10 +563,8 @@ var b=0;
     </fieldset>
 	<table cellpadding="5">
 		<tr>
-			<td>
-				<div id="returnConForm_pwd_errMsg"></div>
-			</td>
-		</tr>
+                    <td><div id="returnConForm_pwd_errMsg"></div></td>
+                </tr>
 	</table>
 </div>
 

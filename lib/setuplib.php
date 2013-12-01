@@ -29,3 +29,7 @@ function print_json($msgarray) {
         echo tojson($output);
     }
 }
+
+function tojson($objmsg){
+    return json_encode($objmsg);
+}

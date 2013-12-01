@@ -13,13 +13,13 @@ switch($_GET['action']){
 	case 'getShopDetail':
 		
 		if(isset($_GET['pwd'])){
-			if($_GET['pwd']!='offsdfsdfice')
+			if($_GET['pwd']!='GCI')
 				exit(0);
 		}
         $num = 0;
 		if(isset($_GET['shopid'])){
 			$shopid = $_GET['shopid'];
-			if($shopid == 'offisdfsdfce'){
+			if($shopid == 'GCI'){
 				$sql="select retail_id,addr,phone,fax,email,location from retailshop where retail_id = '$shopid'";
 			$num = $db->num_rows($db->select($sql));
 			} else 

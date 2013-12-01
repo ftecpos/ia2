@@ -13,44 +13,95 @@
 
 <body>
 <div id="dmenu">
-	<div class="menutitle">Stock Menu</div>
-	<ul>
-		
-		<li><a href="#" class="im8" onClick="callTransferB()">轉貨</a></li>
-		<li><a href="#" class="im20" onClick="call_new_transfer()">新增轉貨單</a></li>
-		<?php
-			if ($_SESSION['retail_no']==1){
-				
-				echo '<li><a href="#" class="im4" onClick="callKuenStockIn()">進貨</a></li>';
-				echo '<li><a href="#" class="im5" onClick="callpo()">PO 管理</a></li>';
-				echo '<li><a href="#" class="im7" onClick="call_return_supplier()">退貨到供應商</a></li>';
-			}
-		?>
-		
-       
-        <li><a href="#" class="im6" onClick="callDayEnd()">日結</a></li>
-	</ul>
+	
+           
+        <?php
+            if(!$_SESSION['retail_no']){
+                die();
+            }
+            switch ($_SESSION['retail_no']){
+                case 1:
+                    echo '<div class="menutitle">Stock Menu</div><ul>';
+                    echo '<li><a href="#" class="im8" onClick="callTransferB()">轉貨</a></li>';
+                    echo '<li><a href="#" class="im20" onClick="call_new_transfer()">新增轉貨單</a></li>';
+                    
+                    echo '<li><a href="#" class="im4" onClick="callKuenStockIn()">進貨</a></li>';
+                    echo '<li><a href="#" class="im5" onClick="callpo()">PO 管理</a></li>';
+                    echo '<li><a href="#" class="im7" onClick="call_return_supplier()">退貨到供應商</a></li>';
+                    echo '</ul>';
 
-	<div class="menutitle" >Reports</div>
-	<ul>
-		<li><a href="#" class="im11" onClick="call_stockin_report()">貨物入倉報表</a></li>
-		<li><a href="#" class="im12" onClick="call_trans_report()">貨物轉倉報表</a></li>
-		<li><a href="#" class="im13" onClick="call_sales_report_all()">銷售報表 - 總覧</a></li>
-		<li><a href="#" class="im14" onClick="call_sales_report_detail()">銷售報表 - 明細</a></li>
-		<li><a href="#" class="im18" onClick="call_in_money()">收入報表</a></li>
-		<li><a href="#" class="im15" onClick="call_stock_report()">庫存報表</a></li>
-		<li><a href="#" class="im16" onClick="call_stock_report_overview()">庫存報表 - 總覧</a></li>		
-		<li><a href="#" class="im19" onClick="call_dayend_report()">日結報表</a></li>		
-		
-	</ul>
-	<?php
-		if ($_SESSION['retail_no']==1){
-			echo '<div class="menutitle" >To Excel</div>';
-			echo '<ul>';
-			echo '<li><a href="#" class="im17" onClick="callExcel()">excel_link.php</a></li>';
-			echo '</ul>';
-		}
-	?>
+                    echo '<div class="menutitle" >Reports</div>';
+                    echo '<ul>';
+                    echo    '<li><a href="#" class="im11" onClick="call_stockin_report()">貨物入倉報表</a></li>';
+                    echo    '<li><a href="#" class="im12" onClick="call_trans_report()">貨物轉倉報表</a></li>';
+                    echo    '<li><a href="#" class="im13" onClick="call_sales_report_all()">銷售報表 - 總覧</a></li>';
+                    echo    '<li><a href="#" class="im14" onClick="call_sales_report_detail()">銷售報表 - 明細</a></li>';
+                    echo    '<li><a href="#" class="im18" onClick="call_in_money()">收入報表</a></li>';
+                    echo    '<li><a href="#" class="im15" onClick="call_stock_report()">庫存報表</a></li>';
+                    echo    '<li><a href="#" class="im16" onClick="call_stock_report_overview()">庫存報表 - 總覧</a></li>';
+                    echo    '<li><a href="#" class="im19" onClick="call_dayend_report()">日結報表</a></li>';
+                    echo   '</ul>';
+                    echo '<div class="menutitle" >To Excel</div>';
+                    echo '<ul>';
+                    echo    '<li><a href="#" class="im17" onClick="callExcel()">excel_link.php</a></li>';
+                    echo '</ul>';
+                break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 10000:
+                    echo '<div class="menutitle">Stock Menu</div><ul>';
+                    echo '<li><a href="#" class="im8" onClick="callTransferB()">轉貨</a></li>';
+                    echo '<li><a href="#" class="im20" onClick="call_new_transfer()">新增轉貨單</a></li>';
+                    echo '<li><a href="#" class="im6" onClick="callDayEnd()">日結</a></li>';
+                    echo '</ul>';
+
+                    echo '<div class="menutitle" >Reports</div>';
+                    echo '<ul>';
+                    echo    '<li><a href="#" class="im11" onClick="call_stockin_report()">貨物入倉報表</a></li>';
+                    echo    '<li><a href="#" class="im12" onClick="call_trans_report()">貨物轉倉報表</a></li>';
+                    echo    '<li><a href="#" class="im13" onClick="call_sales_report_all()">銷售報表 - 總覧</a></li>';
+                    echo    '<li><a href="#" class="im14" onClick="call_sales_report_detail()">銷售報表 - 明細</a></li>';
+                    echo    '<li><a href="#" class="im18" onClick="call_in_money()">收入報表</a></li>';
+                    echo    '<li><a href="#" class="im15" onClick="call_stock_report()">庫存報表</a></li>';
+                    echo    '<li><a href="#" class="im16" onClick="call_stock_report_overview()">庫存報表 - 總覧</a></li>';
+                    echo    '<li><a href="#" class="im19" onClick="call_dayend_report()">日結報表</a></li>';
+                    echo   '</ul>';
+                    
+                break;
+                case 10001:
+                    echo '<div class="menutitle" >Reports</div>';
+                    echo '<ul>';
+                    echo    '<li><a href="#" class="im14" onClick="call_sales_report_detail()">銷售報表 - 明細</a></li>';
+                    echo '</ul>';
+                    echo '<div class="menutitle" >To Excel</div>';
+                    echo '<ul>';
+                    echo    '<li><a href="#" class="im17" onClick="callExcel()">excel_link.php</a></li>';
+                    echo '</ul>';
+                break;
+            
+                default :
+                    
+                break;
+            }
+        ?>
 </div>
 </body>
 </html>

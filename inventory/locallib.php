@@ -125,9 +125,7 @@ function check_office_staff($staff_no){
     return $record;
 }
 
-function tojson($objmsg){
-    return json_encode($objmsg);
-}
+
 function get_numofpo($pono_raw){
     return explode('-', $pono_raw);
 }
