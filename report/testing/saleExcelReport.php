@@ -39,7 +39,7 @@ $sql3 = "select *
 		where invoice.invoiceState_no != 2
 		
 		";
-		if(isset($_GET['from']) && isset($_GET['to'])){
+if(isset($_GET['from']) && isset($_GET['to'])){
     $startDay = $_GET['from'];
     $endDay = $_GET['to'];
     $sql3 .=" and createDate between '".$startDay." 00:00:00' and '".$endDay." 23:59:59'	";

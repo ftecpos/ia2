@@ -34,28 +34,48 @@ echo '<tr><th style="width: 150px">入貨日期</th>
           <th style="width: 100px">開單員工</th>
           <th style="width: 120px">PO No.</th></tr>';
 
-$sql1 = "SELECT sinno_ref_no, staff_id FROM sinno_ref LEFT JOIN staff ON sinno_ref.createBy=staff.staff_no";
-//$sql1 .= " where year(createDate)=2012 AND month(createDate) = 3";
 
+
+$timelimit = '';
+if(isset($_GET['from']) && isset($_GET['to'])){
+    $startDay = $_GET['from'];
+    $endDay = $_GET['to'];
+    $timelimit =" and rec_date between '".$startDay." 00:00:00' and '".$endDay." 23:59:59' ";
+    $sinno_ref_timelimit =" WHERE createDate between '".$startDay." 00:00:00' and '".$endDay." 23:59:59' ";
+}
+
+$sql1 = "SELECT sinno_ref_no, staff_id 
+         FROM sinno_ref 
+         LEFT JOIN staff ON sinno_ref.createBy=staff.staff_no
+         $sinno_ref_timelimit";
+//$sql1 .= " where year(createDate)=2012 AND month(createDate) = 3";
 $result1 = mysql_query($sql1);
 
 if($result1){
-	while($row1 = mysql_fetch_array($result1)){
-		$sinno = $row1['sinno_ref_no'];
+    while($row1 = mysql_fetch_array($result1)){
+        $sinno = $row1['sinno_ref_no'];
 		
-		$tempStockIn_length=strlen($sinno);
-		$i=7;
-		$zeroToBeAdd=$i-$tempStockIn_length;
-		$tempZero='';
-		while($zeroToBeAdd!=0){
-			$tempZero .='0';
-			$zeroToBeAdd--;
-		}	
-		$finalsinno = 'SI-'.$tempZero.$sinno;
-						
-		$sql2 = "select * FROM stockin LEFT JOIN accessories ON stockin.acc_no=accessories.acc_no LEFT JOIN retailShop ON stockin.retailShop_no=retailShop.retailShop_no LEFT JOIN staff ON stockin.staff_no=staff.staff_no LEFT JOIN (po LEFT JOIN podetail ON po.po_no=podetail.po_no	LEFT JOIN supplier ON po.supplier_no=supplier.supplier_no) ON stockin.poDetail_no=podetail.poDetail_no WHERE sinno_ref_no=".$sinno;
+        $tempStockIn_length=strlen($sinno);
+        $i=7;
+        $zeroToBeAdd=$i-$tempStockIn_length;
+        $tempZero='';
+        while($zeroToBeAdd!=0){
+            $tempZero .='0';
+            $zeroToBeAdd--;
+        }	
+        $finalsinno = 'SI-'.$tempZero.$sinno;
+					
+        $sql2 = "select * 
+                 FROM stockin 
+                 LEFT JOIN accessories ON stockin.acc_no=accessories.acc_no 
+                 LEFT JOIN retailShop ON stockin.retailShop_no=retailShop.retailShop_no 
+                 LEFT JOIN staff ON stockin.staff_no=staff.staff_no 
+                 LEFT JOIN (po LEFT JOIN podetail ON po.po_no=podetail.po_no	
+                 LEFT JOIN supplier ON po.supplier_no=supplier.supplier_no) ON stockin.poDetail_no=podetail.poDetail_no 
+                 WHERE sinno_ref_no = $sinno 
+                 ";
 		
-		$result2 = mysql_query($sql2);
+        $result2 = mysql_query($sql2);
 		
 		//$tol_qty = 0;
 		//$tol_price = 0;
@@ -90,7 +110,14 @@ if($result1){
 			}
 		}
 		
-		$sql3 = "select *FROM phone LEFT JOIN phonetype ON phone.phoneType_no=phonetype.phoneType_no LEFT JOIN retailShop ON phone.retailShop_no=retailShop.retailShop_no LEFT JOIN (po LEFT JOIN podetail ON po.po_no=podetail.po_no LEFT JOIN supplier ON po.supplier_no=supplier.supplier_no) ON phone.poDetail_no=podetail.poDetail_no WHERE sinno_ref_no=".$sinno;
+		$sql3 = "select *
+                    FROM phone 
+                    LEFT JOIN phonetype ON phone.phoneType_no=phonetype.phoneType_no 
+                    LEFT JOIN retailShop ON phone.retailShop_no=retailShop.retailShop_no 
+                    LEFT JOIN (po LEFT JOIN podetail ON po.po_no=podetail.po_no 
+                    LEFT JOIN supplier ON po.supplier_no=supplier.supplier_no) ON phone.poDetail_no=podetail.poDetail_no 
+                    WHERE sinno_ref_no = $sinno
+                    ";
 		
 		$result3 = mysql_query($sql3);
 		

@@ -1,7 +1,7 @@
 <?php 
 
 require ("../conn/db_include.php");
-require ("../lib/setuplib.php");
+
 require ("locallib.php");
 
 //must set timezone on the top	

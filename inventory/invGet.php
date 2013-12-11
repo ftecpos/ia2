@@ -761,7 +761,7 @@ function get_sales_report_detail(){
 			$staff_list=$_POST['staff_list'];
 			$sql1 .=" and createBy in ($staff_list)";
 		}
-		if(check_is_office()){
+		if(check_is_office() || $_SESSION['retail_no']==10001){
 			if(isset($_POST['shop_list'])){
 				$shop_list = $_POST['shop_list'];
 				$sql1 .=" and invoice.retailShop_no in ($shop_list)";
