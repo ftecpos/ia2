@@ -1030,6 +1030,12 @@ $result = $db->selectLimit($sql, '14',$pageNo);
             $ssa          = $_GET['ssa'];
             $ssa2         = $_GET['ssa2'];
             $phone_offer   = $_GET['phone_offer'];
+            $ssa2_2       = optional_param('ssa2_2', '0');
+            $ssa2_2_phone = optional_param('ssa2_2_phone', '0');
+            $ssa3         = optional_param('ssa3', '0');
+            $ssa3_phone   = optional_param('ssa3_phone', '0');
+            $ssa4         = optional_param('ssa4', '0');
+            $ssa4_phone   = optional_param('ssa4_phone', '0');
 		
 		if(!checkGoodsState($poudNo,$goodsType,$retailShopNo,$qty)){
 		//	echo $poudNo.'  '.$goodsType.'  '.$retailShopNo.' '.$qty;
@@ -1063,9 +1069,32 @@ $result = $db->selectLimit($sql, '14',$pageNo);
 				$commission_1 = 0;
 				$commission_2 = 0;
 			}
-			$sql = "INSERT INTO invoicedetail (`product_no`,`product_id`,`description`,`qty`,`discount`,`price`,`invoice_no`,`modifyBy`,`goodsType`,`cost`,`commission_1`,`commission_2`,`ssa`,`ssa2`,`ssa_offer`)
-					VALUES ('$poudNo','$phonetype_id','$description',$qty,'$discount','$price','$invoiceNo','$modifyBy',1,'$cost','$commission_1','$commission_2',$ssa, '$ssa2', '$phone_offer')";
-			$db->query($sql);
+
+                        $insertdata = new stdClass();
+                        $insertdata->product_no = $poudNo;
+                        $insertdata->product_id = $phonetype_id;
+                        $insertdata->description = $description;
+                        $insertdata->qty = $qty;
+                        $insertdata->discount = $discount;
+                        $insertdata->price = $price;
+                        $insertdata->invoice_no = $invoiceNo;
+                        $insertdata->modifyBy = $modifyBy;
+                        $insertdata->goodsType = 1;
+                        $insertdata->cost = $cost;
+                        $insertdata->commission_1 = $commission_1;
+                        $insertdata->commission_2 = $commission_2;
+                        $insertdata->ssa = $ssa;
+                        $insertdata->ssa2 = $ssa2;
+                        $insertdata->ssa_offer = $phone_offer;
+                        $insertdata->ssa2_2 = $ssa2_2;
+                        $insertdata->ssa2_2_mobile = $ssa2_2_phone;
+                        $insertdata->ssa3 = $ssa3;
+                        $insertdata->ssa3_mobile = $ssa3_phone;
+                        $insertdata->ssa4 = $ssa4;
+                        $insertdata->ssa4_mobile = $ssa4_phone;
+                        if(!$new_invoiceid = $db->insert_record('invoicedetail', $insertdata)){
+                            print_error("Cannot create invoice detail");
+                        }
 			$db->query("UPDATE phone SET `phoneState_no`=2 WHERE`IMEI`='$poudNo'");
 		}else 
 		if($goodsType==0){ //如果是accessories時做的動作
@@ -1107,9 +1136,30 @@ echo	"</script>";
                                         $commission_1 = 0;
                                         $commission_2 = 0;
                                     }
-                                    $sql = "INSERT INTO invoicedetail (`product_no`,`description`,`qty`,`discount`,`price`,`invoice_no`,`modifyBy`,`goodsType`,`cost`,`commission_1`,`commission_2`,`ssa`,`ssa2`,`ssa_offer`)
-                                            VALUES ('$poudNo','$description',$tempAvaBal,'$discount','$price','$invoiceNo','$modifyBy',0,$cost,'$commission_1','$commission_2',$ssa, '$ssa2', '$phone_offer')";
-                                    $db->query($sql);
+                                    $insertdata = new stdClass();
+                                    $insertdata->product_no = $poudNo;
+                                    $insertdata->description = $description;
+                                    $insertdata->qty = $tempAvaBal;
+                                    $insertdata->discount = $discount;
+                                    $insertdata->price = $price;
+                                    $insertdata->invoice_no = $invoiceNo;
+                                    $insertdata->modifyBy = $modifyBy;
+                                    $insertdata->goodsType = 0;
+                                    $insertdata->cost = $cost;
+                                    $insertdata->commission_1 = $commission_1;
+                                    $insertdata->commission_2 = $commission_2;
+                                    $insertdata->ssa = $ssa;
+                                    $insertdata->ssa2 = $ssa2;
+                                    $insertdata->ssa_offer = $phone_offer;
+                                    $insertdata->ssa2_2 = $ssa2_2;
+                                    $insertdata->ssa2_2_mobile = $ssa2_2_phone;
+                                    $insertdata->ssa3 = $ssa3;
+                                    $insertdata->ssa3_mobile = $ssa3_phone;
+                                    $insertdata->ssa4 = $ssa4;
+                                    $insertdata->ssa4_mobile = $ssa4_phone;
+                                    if(!$new_invoiceid = $db->insert_record('invoicedetail', $insertdata)){
+                                        print_error("Cannot create invoice detail");
+                                    }
           
                                     $qty = $qty-$tempAvaBal;
                                    // echo 'cost'.$cost;
@@ -1183,118 +1233,149 @@ echo	"</script>";
 		break;
 	
 	case'getMobileInfo':
-            $price = 0;
-            $qty = 1;
-            $total = 0;
-            $goodsType=1;
-            $inv_type=$_GET['inv_type'];
-            $phone_ssa1 = 0;
-            $mobile1 = 0;
-            $phone_ssa2 = 0;
-            $phone_offer = '';
+        $price = 0;
+        $qty = 1;
+        $total = 0;
+        $goodsType=1;
+        $inv_type=$_GET['inv_type'];
+        $phone_ssa1 = 0;
+        $mobile1 = 0;
+        $phone_ssa2 = 0;
+        $phone_offer = ''; // as a remark
+        
+        $ssa_code2 = '0';
+        $ssa_code3 = '0';
+        $ssa_code4 = '0';
+        $ssa_mobile2 = '';
+        $ssa_mobile3 = '';
+        $ssa_mobile4 = '';
             
-            if(isset($_GET['phone_ssa1'])) $phone_ssa1 = $_GET['phone_ssa1'];
-            if(isset($_GET['mobile1'])) $mobile1 = $_GET['mobile1'];
-            if(isset($_GET['phone_ssa2'])) $phone_ssa2 = $_GET['phone_ssa2'];
-            if(isset($_GET['phone_offer'])) $phone_offer = $_GET['phone_offer'];
-		if ($inv_type==1){
+        if(isset($_GET['phone_ssa1'])) $phone_ssa1 = $_GET['phone_ssa1'];
+        if(isset($_GET['mobile1'])) $mobile1 = $_GET['mobile1'];
+        if(isset($_GET['phone_ssa2'])) $phone_ssa2 = $_GET['phone_ssa2'];
+        if(isset($_GET['phone_offer'])) $phone_offer = $_GET['phone_offer'];
+        $ssa_code2 = optional_param('phone_ssa2', 0);
+        $ssa_code3 = optional_param('phone_ssa3', 0);
+        $ssa_code4 = optional_param('phone_ssa4', 0);
+        
+        $ssa_mobile2 = optional_param('mobile2', '');
+        $ssa_mobile3 = optional_param('mobile3', '');
+        $ssa_mobile4 = optional_param('mobile4', '');
+        if ($inv_type==1){
 		
-                    $sql="SELECT phone_name,imei,manufacturer, sprice, oprice,phoneState_no,color,phonetype_id
-                                            FROM phone ph, phonetype pt
-                                            WHERE ph.phoneType_no = pt.phoneType_no";
-                    if (isset($_GET['imei']) && isset($_GET['qty'])){
-                            $imei = $_GET['imei'];
-                            $qty = $_GET['qty'];
-                            $sql .=" and imei = '$imei'";
-                    } else
-                    if (isset($_GET['phone_no'])){
-                            $phoneNo = $_GET['phone_no'];
-                            $sql .=" and ph.phone_no = '$phoneNo'";
-                    }
-                    $sql .=" group by ph.phone_no";
-                    $result = $db->query($sql);
-                    if ($result){
-                        while ($row = $db->fetch_array($result)) {
-                                if($row['phoneState_no']==2)
-                                        die(error_msg2());
-                                if ($_GET['osarea'] == 0)
-                                        $price = $row['sprice'];
-                                else if ($_GET['osarea'] == 1)
-                                        $price = $row['oprice'];
-                                $imei = $row['imei'];
-                                $phoneName =$row['manufacturer']." ".$row['phone_name']." (".$row['color'].")";
+            $sql="SELECT phone_name,imei,manufacturer, sprice, oprice,phoneState_no,color,phonetype_id
+                  FROM phone ph, phonetype pt
+                  WHERE ph.phoneType_no = pt.phoneType_no";
+            if (isset($_GET['imei']) && isset($_GET['qty'])){
+                    $imei = $_GET['imei'];
+                    $qty = $_GET['qty'];
+                    $sql .=" and imei = '$imei'";
+            } else if (isset($_GET['phone_no'])){
+                    $phoneNo = $_GET['phone_no'];
+                    $sql .=" and ph.phone_no = '$phoneNo'";
+            }
+            $sql .=" group by ph.phone_no";
+            $result = $db->query($sql);
+            if ($result){
+                while ($row = $db->fetch_array($result)) {
+                        if($row['phoneState_no']==2)
+                                die(error_msg2());
+                        if ($_GET['osarea'] == 0)
+                                $price = $row['sprice'];
+                        else if ($_GET['osarea'] == 1)
+                                $price = $row['oprice'];
+                        $imei = $row['imei'];
+                        $phoneName =$row['manufacturer']." ".$row['phone_name']." (".$row['color'].")";
 
-                                $total = ($price*$qty);
-                                $discount = 0;
-                                echo '<tr><td>'.$imei.'</td>'.
-                                                '<td>'.$phoneName.'</td>'.
-                                                '<td>'.$price.'</td>'.
-                                                '<td>'.$qty.'</td>'.
-                                                '<td>'.$discount.'</td>'.
-                                                '<td>'.round($total, 1).'</td>'.
-                                        '</tr>';
-                        }//  end while
-                    }// End of if $result
-                
-		echo	"<script type=\"text/javascript\">";
-		echo 	"	total = total + $total;";
-		//echo 	" itemArray.push($bcode,$price,$qty,$discount,$total);";
-		echo 	" itemArray.push('$imei','$phoneName',$price,$qty,$discount,$total,$goodsType,
-                                         $phone_ssa1, '$mobile1', '$phone_offer');";
-		echo	"setInvTableListener();";
-		echo	"</script>";
-	} else if ($inv_type==2){
-		echo "This is two";
-	}
+                        $total = ($price*$qty);
+                        $discount = 0;
+                        $output_to_table = '<tr><td>'.$imei.'</td>'.
+                                        '<td>'.$phoneName.'</td>'.
+                                        '<td>'.$price.'</td>'.
+                                        '<td>'.$qty.'</td>'.
+                                        '<td>'.$discount.'</td>'.
+                                        '<td>'.round($total, 1).'</td>'.
+                                '</tr>';
+                }//  end while
+            }// End of if $result
+            $output_to_itemArray = array();
+            $output_to_itemArray[] = "'".$imei."'";
+            $output_to_itemArray[] = "'".$phoneName."'";
+            $output_to_itemArray[] = $price;
+            $output_to_itemArray[] = $qty;
+            $output_to_itemArray[] = $discount;
+            $output_to_itemArray[] = $total;
+            $output_to_itemArray[] = $goodsType;
+            $output_to_itemArray[] = $phone_ssa1;
+            $output_to_itemArray[] = "'".$mobile1."'";
+            $output_to_itemArray[] = "'".$phone_offer."'";
+            $output_to_itemArray[] = "'".$ssa_code2."'";
+            $output_to_itemArray[] = "'".$ssa_mobile2."'";
+            $output_to_itemArray[] = "'".$ssa_code3."'";
+            $output_to_itemArray[] = "'".$ssa_mobile3."'";
+            $output_to_itemArray[] = "'".$ssa_code4."'";
+            $output_to_itemArray[] = "'".$ssa_mobile4."'";
+            $output_to_itemArray_list = implode(',', $output_to_itemArray);
+            if($output_to_table){
+                echo $output_to_table;
+                echo    "<script>";
+                echo 	"total = total + $total;";
+                echo 	"itemArray.push(".$output_to_itemArray_list.");";
+                echo	"setInvTableListener();";
+                echo	"</script>";
+            }
+        } else if ($inv_type==2){
+            echo "This is two";
+        }
 		break;
 	
 	
 	case'getGdInfo':
-		$price = 0;
-		$total = 0;
-		$qty = 1;
-		$goodsType=0;
-		$shopno = $_GET['shopno'];
+            $price = 0;
+            $total = 0;
+            $qty = 1;
+            $goodsType=0;
+            $shopno = $_GET['shopno'];
 		
-		$sql = "SELECT accName, barcode,acc_id, sum(ava_bal) as ava_bal, typeName, sprice,oprice
-                        FROM accessories acc,stockin si, acctype act
-                        WHERE si.retailShop_no = $shopno
-        		AND acc.acc_no = si.acc_no
-        		AND acc.accType_no = act.accType_no";
+            $sql = "SELECT accName, barcode,acc_id, sum(ava_bal) as ava_bal, typeName, sprice,oprice
+                    FROM accessories acc,stockin si, acctype act
+                    WHERE si.retailShop_no = $shopno
+                    AND acc.acc_no = si.acc_no
+                    AND acc.accType_no = act.accType_no";
 		
-		if (isset($_GET['bcode']) && isset($_GET['qty'])){
-			$bcode = $_GET['bcode'];
-			$qty = $_GET['qty'];
-			$sql .=" AND si.acc_no =(select acc_no from accessories where barcode='$bcode' or acc_id = '$bcode')";
-			 
-					 
-		} else
-		if (isset($_GET['accNo'])){
-			$accNo = $_GET['accNo'];
-			$sql .=" AND acc.acc_no = $accNo";
-				
-		}
-			$sql .=" group by acc.acc_no";
+            if (isset($_GET['bcode']) && isset($_GET['qty'])){
+                $bcode = $_GET['bcode'];
+                $qty = $_GET['qty'];
+                $sql .=" AND si.acc_no =(select acc_no from accessories where barcode='$bcode' or acc_id = '$bcode')"; 
+		
+            } else if (isset($_GET['accNo'])){
+                $accNo = $_GET['accNo'];
+                $sql .=" AND acc.acc_no = $accNo";			
+            }
+            $sql .=" group by acc.acc_no";
 
-		$result = $db->query($sql);
+            $result = $db->query($sql);
         $output_to_table=array();
+        $result = $db->get_records_sql($sql, 'acc_id');
         if ($result) {
-            while ($row = $db->fetch_array($result)) {
-                if(($row['ava_bal']-$qty)<0)
+            foreach($result as $res) {
+                
+                if(($res->ava_bal-$qty)<0) {
                     die(error_msg1());
-                if ($_GET['osarea'] == 0)
-                    $price = $row['sprice'];
-                else if ($_GET['osarea'] == 1)
-                    $price = $row['oprice'];
-	    		
-				
-                if($row['barcode']!=null && $row['barcode'])
-                    $bcode = $row['acc_id'];
-                    //$bcode = $row['barcode'];
-                else
-                    $bcode = $row['acc_id'];
+                }
+                if ($_GET['osarea'] == 0) {
+                    $price = $res->sprice;
+                } else if ($_GET['osarea'] == 1){
+                    $price = $res->oprice;
+                }
+                if($res->barcode !=null && $res->barcode){
+                    $bcode = $res->acc_id;
+                    //$bcode = $res->barcode;
+                }else{
+                    $bcode = $res->acc_id;
+                }
 			
-                $accName = $row['accName'];
+                $accName = $res->accname;
 	    	
                 $total = ($price*$qty);
                 
@@ -1309,8 +1390,15 @@ echo	"</script>";
                                    '</tr>';
             }
             $ssa_code = '0';
-            $ssa_code2 = '';
+            $ssa_code2 = '0';
+            $ssa_code3 = '0';
+            $ssa_code4 = '0';
+            
             $ssa_mobile1 = '';
+            $ssa_mobile2 = '';
+            $ssa_mobile3 = '';
+            $ssa_mobile4 = '';
+            
             $phone_offer = '';
             if(isset($_GET['ssa_code'])){
                 $ssa_code = $_GET['ssa_code'];
@@ -1318,65 +1406,52 @@ echo	"</script>";
             if(isset($_GET['ssa_mobile1'])){
                 $ssa_mobile1 = $_GET['ssa_mobile1'];
             }
+            $moressa = optional_param('moressa', 0);
+            if($moressa){
+                $ssa_code = optional_param('ssa_code1', 0);
+                $ssa_code2 = optional_param('ssa_code2', 0);
+                $ssa_code3 = optional_param('ssa_code3', 0);
+                $ssa_code4 = optional_param('ssa_code4', 0);
+                
+                $ssa_mobile1 = optional_param('ssa_mobile1', '');
+                $ssa_mobile2 = optional_param('ssa_mobile2', '');
+                $ssa_mobile3 = optional_param('ssa_mobile3', '');
+                $ssa_mobile4 = optional_param('ssa_mobile4', '');
+                
+                $phone_offer = optional_param('remark1', '');
+            }
+            
+            $output_to_itemArray = array();
+            $output_to_itemArray[] = "'".$bcode."'";
+            $output_to_itemArray[] = "'".$accName."'";
+            $output_to_itemArray[] = $price;
+            $output_to_itemArray[] = $qty;
+            $output_to_itemArray[] = $discount;
+            $output_to_itemArray[] = $total;
+            $output_to_itemArray[] = $goodsType;
+            $output_to_itemArray[] = $ssa_code;
+            $output_to_itemArray[] = "'".$ssa_mobile1."'";
+            $output_to_itemArray[] = "'".$phone_offer."'";
+            $output_to_itemArray[] = "'".$ssa_code2."'";
+            $output_to_itemArray[] = "'".$ssa_mobile2."'";
+            $output_to_itemArray[] = "'".$ssa_code3."'";
+            $output_to_itemArray[] = "'".$ssa_mobile3."'";
+            $output_to_itemArray[] = "'".$ssa_code4."'";
+            $output_to_itemArray[] = "'".$ssa_mobile4."'";
+            $output_to_itemArray_list = implode(',', $output_to_itemArray);
+            
             if($output_to_table){
                 echo $output_to_table;
                 echo    "<script>";
                 echo 	"	total = total + $total;";
-
-
-                echo 	" itemArray.push('$bcode','$accName',$price,$qty,$discount,$total,$goodsType, $ssa_code,'$ssa_mobile1', '$phone_offer');";
+                echo 	" itemArray.push(".$output_to_itemArray_list.");";
                 echo	"setInvTableListener();";
                 
                 echo	"</script>";
-                print_r (($result));
             }
-        }// End of if $result
-
-
-//add 306 dialog function 2012-12-10
-/*
-$ssa_html = array();
-if($bcode == '306'){
-    $ssa_html = '
-        <script>
-        $( "#ssa_dialog" ).dialog({
-            autoOpen : false,
-
-            height   : 150,
-            width    : 350,
-            modal    : true,
-            open: function () {
-
-            },
-            buttons  : {
-                "Confirm": function() {
-                    if ($("#ssa").val()!="") {
-                        $("#saltb").append(\''.$output_to_table.'\');
-                        total = total + '.$total.';
-                        itemArray.push(\''.$bcode.'\',\''.$accName.'\','.$price.','.$qty.','.$discount.','.
-                                        $total.','.$goodsType.',$("#ssa").val());
-                        setInvTableListener();
-                        $("#ssa").val(null);
-                        $(this).dialog("close");
-                    } else {
-                        alert("Please input SSA code");
-                    }
-                },
-                Cancel: function() {
-                    $(this).dialog("close");
-                }
-            }
-        });
-        $("#ssa_dialog").dialog("open");
-        $("#ssa").focus();
-        </script>';
-    echo $ssa_html;
-    
-} else {*/
-    
-//}
-
-
+        } else {
+            die();
+        }
 
 //the sql had us in this case
 //INSERT INTO `3shop`.`retailshop_ass` (`retailShop_no`,`acc_no`,`qty`,`price`) VALUES (1,1,10,30);

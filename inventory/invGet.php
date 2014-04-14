@@ -489,41 +489,44 @@ switch($_GET['action']){
             print_r($sql);
             break;
 	case 'getPOD':
-		$poNo=$_GET['poNo'];
-		$sql1="select p.po_no, p.createDate, staff_id, supplierName, stateName, p.poState_no, retail_id,
+            $detail_of_po_inTable='';
+            $poNo=$_GET['poNo'];
+            $sql1="select p.po_no, p.createDate, staff_id, supplierName, stateName, p.poState_no, retail_id,
                         modify_by, po_desc,modify_date, forshop
-				from po p, staff st, supplier sp, poState ps, retailShop rs
-				where p.staff_no = st.staff_no
-				and p.supplier_no = sp.supplier_no
-				and p.poState_no = ps.poState_no
-				and p.retailShop_no = rs.retailShop_no
-				and p.po_no='$poNo'";
-		$row1=$db->getrow($sql1);
-		$poNo=$row1['po_no'];
+                   from po p, staff st, supplier sp, poState ps, retailShop rs
+                   where p.staff_no = st.staff_no
+                   and p.supplier_no = sp.supplier_no
+                   and p.poState_no = ps.poState_no
+                   and p.retailShop_no = rs.retailShop_no
+                   and p.po_no='$poNo'";
+            $row1=$db->getrow($sql1);
+            $poNo=$row1['po_no'];
 		
 		
 		
-		$createDate=$row1['createDate'];
-		$staff_id=$row1['staff_id'];
-		$supplierName=$row1['supplierName'];
-		$stateName=$row1['stateName'];
-		$retail_id=$row1['retail_id'];
-		$poState_no=$row1['poState_no'];
-		$modify_by=$row1['modify_by'];
-		
-		$modify_by=getStaffId($modify_by);
-		
-		$po_desc=$row1['po_desc'];
-		$modify_date=$row1['modify_date'];
-		$forshop=$row1['forshop'];
-		
-		
-	
-		$numOfRow = $db->num_rows($db->query($sql1));
-		
-		$qtyMsg='<td>Qty</td>';
-		
-		$detail_of_po_inTable = '<table border=\"1\" width=\"100%\">'.
+            $createDate=$row1['createDate'];
+            $staff_id=$row1['staff_id'];
+            $supplierName=$row1['supplierName'];
+            $stateName=$row1['stateName'];
+            $retail_id=$row1['retail_id'];
+            $poState_no=$row1['poState_no'];
+            $modify_by=$row1['modify_by'];
+
+            $modify_by=getStaffId($modify_by);
+
+            $po_desc=$row1['po_desc'];
+            $modify_date=$row1['modify_date'];
+            $forshop=$row1['forshop'];
+
+            if(check_is_office() and $poState_no==1){
+                $detail_of_po_inTable .= '<input type=\"button\" value=\"刪除PO\" class=\"finIncel\"  onclick=\"deletepo('.$poNo.');\" />';
+            }
+
+            $numOfRow = $db->num_rows($db->query($sql1));
+
+            $qtyMsg='<td>Qty</td>';
+
+            $detail_of_po_inTable .= '<table border=\"1\" width=\"100%\">'.
 									'<tr>';
 			if($poState_no!=3 || $poState_no==4){  //3=完結-- 貨全部收到
 				$detail_of_po_inTable .='<td>poDetail_no</td>';

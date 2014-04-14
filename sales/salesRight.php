@@ -669,6 +669,12 @@ function save_order(){
                             ssa : itemArray[i+7],
                             ssa2 : itemArray[i+8],
                             phone_offer : itemArray[i+9],
+                            ssa2_2 : itemArray[i+10],
+                            ssa2_2_phone : itemArray[i+11],
+                            ssa3 : itemArray[i+12],
+                            ssa3_phone : itemArray[i+13],
+                            ssa4 : itemArray[i+14],
+                            ssa4_phone : itemArray[i+15],
                         },
                         async: false,
                         error: function(xhr) {
@@ -678,7 +684,8 @@ function save_order(){
                             $('#tempRes').html(response);
                         }
                     });//----End of invoice detail ajax------
-			i+=9;
+                    //2013-12-20
+			i+=15;
 		}//----End of for loop
 							
 							
@@ -832,22 +839,126 @@ function save_order(){
     
 </div>
 
+<div id="ssa_freepremium_dialog" title="Please Input SSA Code" style="display:none">
+    <table>
+        <tr>
+            <td><label for="qty1">Qty</label></td>
+            <td><input type="text" name="qty1" id="qty1" class="text ui-widget-content ui-corner-all ssa-text"
+                       maxlength="3" onclick="this.select();" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+    </table>
+    <fieldset>
+    <table>
+        <tr>
+            <td><label for="ssa_name">SSA1</label></td>
+            <td><input type="text" name="ssa1" id="ssa1" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+        <tr>
+            <td><label for="mobile1">Mobile1</label></td>
+            <td><input type="text" name="mobile1" id="ssa_mobile1" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+    </table>
+    </fieldset>
+    <fieldset>
+    <table>
+        <tr>
+            <td><label for="ssa_name">SSA2</label></td>
+            <td><input type="text" name="ssa2" id="ssa2" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+        <tr>
+            <td><label for="mobile1">Mobile2</label></td>
+            <td><input type="text" name="mobile2" id="ssa_mobile2" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+    </table>
+    </fieldset>
+    
+    <fieldset>
+    <table>
+        <tr>
+            <td><label for="ssa_name">SSA3</label></td>
+            <td><input type="text" name="ssa3" id="ssa3" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+        <tr>
+            <td><label for="mobile1">Mobile3</label></td>
+            <td><input type="text" name="mobile3" id="ssa_mobile3" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+    </table>
+    </fieldset>
+    
+    <fieldset>
+    <table>
+        <tr>
+            <td><label for="ssa_name">SSA4</label></td>
+            <td><input type="text" name="ssa4" id="ssa4" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+        <tr>
+            <td><label for="mobile1">Mobile4</label></td>
+            <td><input type="text" name="mobile4" id="ssa_mobile4" class="text ui-widget-content ui-corner-all ssa-text" 
+                   maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+        </tr>
+    </table>
+    </fieldset>
+    <table>
+        <tr>
+            <td><label for="remark1">Remark</label></td>
+            <td><input type="text" name="remark1" id="remark1" class="text ui-widget-content ui-corner-all" /></td>
+        </tr>
+    </table>
+</div>
+
 <div id="phone_ssa_dialog" title="Please Input Phone SSA Code" style="display:none">
     <fieldset>
         <table>
             <tr>
                 <td><label for="phone_ssa1">Phone SSA</label></td>
-                <td><input type="text" name="phone_ssa1" id="phone_ssa1" class="text ui-widget-content ui-corner-all" 
+                <td><input type="text" name="phone_ssa1" id="phone_ssa1" class="text ui-widget-content ui-corner-all phone_ssa_text" 
                        maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
             </tr>
             <tr>
                 <td><label for="mobile1">Mobile</label></td>
-                <td><input type="text" name="mobile1" id="mobile1" class="text ui-widget-content ui-corner-all" 
+                <td><input type="text" name="mobile1" id="mobile1" class="text ui-widget-content ui-corner-all phone_ssa_text" 
+                       maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+            </tr>
+            <tr>
+                <td><label for="phone_ssa2">Phone SSA2</label></td>
+                <td><input type="text" name="phone_ssa2" id="phone_ssa2" class="text ui-widget-content ui-corner-all phone_ssa_text" 
+                       maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+            </tr>
+            <tr>
+                <td><label for="mobile2">Mobile2</label></td>
+                <td><input type="text" name="mobile2" id="mobile2" class="text ui-widget-content ui-corner-all phone_ssa_text" 
+                       maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+            </tr>
+            <tr>
+                <td><label for="phone_ssa3">Phone SSA3</label></td>
+                <td><input type="text" name="phone_ssa3" id="phone_ssa3" class="text ui-widget-content ui-corner-all phone_ssa_text" 
+                       maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+            </tr>
+            <tr>
+                <td><label for="mobile3">Mobile3</label></td>
+                <td><input type="text" name="mobile3" id="mobile3" class="text ui-widget-content ui-corner-all phone_ssa_text" 
+                       maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
+            </tr>
+            <tr>
+                <td><label for="phone_ssa4">Phone SSA4</label></td>
+                <td><input type="text" name="phone_ssa4" id="phone_ssa4" class="text ui-widget-content ui-corner-all phone_ssa_text" 
+                       maxlength="9" onkeyup="return validateNumber($(this),value)" /></td>
+            </tr>
+            <tr>
+                <td><label for="mobile4">Mobile4</label></td>
+                <td><input type="text" name="mobile4" id="mobile4" class="text ui-widget-content ui-corner-all phone_ssa_text" 
                        maxlength="8" onkeyup="return validateNumber($(this),value)" /></td>
             </tr>
             <tr>
                 <td><label for="phone_offer">Phone Offer</label></td>
-                <td><input type="text" name="phone_offer" id="phone_offer" class="text ui-widget-content ui-corner-all" /></td>
+                <td><input type="text" name="phone_offer" id="phone_offer" class="text ui-widget-content ui-corner-all phone_ssa_text" /></td>
             </tr>
         </table>
     </fieldset>
@@ -881,18 +992,48 @@ $("#ssa_dialog").dialog({
         }
     }
 });
+
+$("#ssa_freepremium_dialog").dialog({
+    autoOpen : false,
+    height   : 600,
+    width    : 520,
+    modal    : true,
+    close    : function(){
+        $(".ssa-text").val(null);
+        $("#remark1").val(null);
+        $('#bcode').val(null);
+    },
+    buttons  : {
+        "Confirm": function() {
+            if(confirm_freepremium_ssa()){
+                $(".ssa-text").val(null);
+                $("#remark1").val(null);
+                $('#bcode').val(null);
+                
+                
+                document.getElementById('bcode').focus();
+            }
+        },
+        Cancel: function() {
+            $(".ssa-text").val(null);
+            $("#remark1").val(null);
+            
+            $('#bcode').val(null);
+            $(this).dialog("close");
+            document.getElementById('bcode').focus();
+        }
+    }
+});
+
 $("#phone_ssa_dialog").dialog({
     autoOpen : false,
-    height   : 200,
+    height   : 400,
     width    : 360,
     modal    : true,
     buttons  : {
         "Confirm": function() {
             if(confirmmobilessa()){
-                $('#phone_ssa1').val(null);
-                $('#mobile1').val(null);
-                //$('#phone_ssa2').val(null);
-                $('#phone_offer').val(null);
+                $('.phone_ssa_text').val(null);
                 $(this).dialog("close");
                 document.getElementById('bcode').focus();
             }
@@ -918,17 +1059,18 @@ $("#del").attr("disabled", true);
 var clk= clk;
 $("#del").click(function() {
     //alert(delrow);
-    var deleteFrom=(delrow*9);
+    var deleteFrom=(delrow*15);
 
     var hideRows = $("#saltb tr").hasClass("currRow");
     if (hideRows == true) {
         $("#saltb tr.currRow td").fadeOut(500);
         //alert (itemArray[deleteFrom]+ " "+itemArray[deleteFrom+1]+ " "+itemArray[deleteFrom+2]+ " "+itemArray[deleteFrom+3]+ " "+itemArray[deleteFrom+4]+ " "+itemArray[deleteFrom+5]);
-        
-        total = (total - itemArray[deleteFrom+5]);
+        if(itemArray[deleteFrom+5] != 0){
+            total = (total - itemArray[deleteFrom+5]);
+        }
         $('#tol').val(total);
-        //2013-01-06 
-        itemArray.splice(deleteFrom,10,"","","","","","","","","","");
+        //2013-12-20
+        itemArray.splice(deleteFrom,16,"","","","","","","","","","","","","","","","");
 
         $("#del").attr("disabled", true);
         $('#discount').attr("disabled", true);

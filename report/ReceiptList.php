@@ -66,64 +66,105 @@
 		echo '<td width="100" id="total"><div align="right">'.$total.'</div></td></tr>';
 	echo '<tr border="1"><td width="700"><div align="right">已付 Paid:</div></td>';
 	for($j=0; $j<mysql_num_rows($sql_paid); $j++){
-		switch($payment_method){
-			case "1":
-				echo '<td width="100"><div align="left">Cash-in $HKD</div></td>';
-				echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
-				break;
-			case "2":
-				echo '<td width="100"><div align="left">EPS $HKD</div></td>';
-				echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
-				break;
-			case "3":
-				echo '<td width="100"><div align="left">信用卡 $HKD</div></td>';
-				echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
-				break;
-			case "4":
-				echo '<td width="100"><div align="left">八逹通 $HKD</div></td>';
-				echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
-				break;
-		}
+            switch($payment_method){
+                case "1":
+                    echo '<td width="100"><div align="left">Cash-in $HKD</div></td>';
+                    echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
+                break;
+                case "2":
+                    echo '<td width="100"><div align="left">EPS $HKD</div></td>';
+                    echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
+                break;
+                case "3":
+                    echo '<td width="100"><div align="left">信用卡 $HKD</div></td>';
+                    echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
+                break;
+                case "4":
+                    echo '<td width="100"><div align="left">八逹通 $HKD</div></td>';
+                    echo '<td width="100" id="total"><div align="right">'.$paid.'</div></td></tr>';
+                break;
+            }
 	}
 	echo "</table>";
 	
 	
-		if ($goodstype == 1 && $product_id=='11901PB'){ //if is phone
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<br>';
-			echo '<table width="" border="0" cellspacing="0"  style="border:1px solid black;float:right;" id = "phonedesc">';
-			echo '<tr><td style="border-bottom:1px solid black; text-align:center; font-size:1.3em; font-weight:bold" colspan="2">產品資料</td></tr>';
-			echo '<tr><td style="border-bottom:1px solid black; text-align:center; font-size:1.3em; font-weight:bold" colspan="2">Product Information</td></tr>';
-			echo '<tr><td>1. 牌子 ( Brand ): </td><td>Nokia</td></tr>';
-			echo '<tr><td>2. 產品型號 ( Model ):</td><td>Nokia 100</td></tr>';
-			echo '<tr><td>3. 產地 ( Original County ):</td><td>China</td></tr>';
-			echo '<tr><td>4. 頻率 ( Frequency) :</td><td>GSM 900 / 1800</td></tr>';
-			echo '<tr><td>5. 規格 ( Specification ): </td><td>1.8 吋 TFT主螢幕</td></tr>';
-			echo '<tr><td></td><td>Symbian S30 作業系統</td></tr>';
-			echo '<tr><td></td><td>內建FM收音機, 8.0MB 記憶體及LED手電筒功能</td></tr>';
-			echo '<tr><td>6. 配件 ( Accessory ) </td><td>Nokia High-Efficiency Charger AC - 11X </td></tr>';
-			echo '<tr><td></td><td>Nokia Battery BL-5CB </td></tr>';
-			echo '<tr><td></td><td>Nokia 3.5mm Stereo Headset WH-102</td></tr>';
-			echo '<tr><td></td><td>快速指南、用戶指南與產品資訊說明頁</tr>';
-			echo '<tr><td>7. 保養期限 ( Warranty ) :</td><td>一年</td></tr>';
-			echo '<tr><td>8. 維修商名稱 ( Warranty Provider ) :</td><td>NOKIA</td></tr>';
-			echo '<tr><td>9. 維修地址 ( Repair Center Address ) :</td><td>九龍旺角登打士街56號柏裕商業中心910-14室</td></tr>';
-			echo '<tr><td></td><td>﹙港鐵油麻地站A2出口﹚</td></tr>';
+        if ($goodstype == 1 && $product_id=='11901PB'){ //if is phone
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<table width="" border="0" cellspacing="0"  style="border:1px solid black;float:right;" id = "phonedesc">';
+            echo '<tr><td style="border-bottom:1px solid black; text-align:center; font-size:1.3em; font-weight:bold" colspan="2">產品資料</td></tr>';
+            echo '<tr><td style="border-bottom:1px solid black; text-align:center; font-size:1.3em; font-weight:bold" colspan="2">Product Information</td></tr>';
+            echo '<tr><td>1. 牌子 ( Brand ): </td><td>Nokia</td></tr>';
+            echo '<tr><td>2. 產品型號 ( Model ):</td><td>Nokia 100</td></tr>';
+            echo '<tr><td>3. 產地 ( Original County ):</td><td>China</td></tr>';
+            echo '<tr><td>4. 頻率 ( Frequency) :</td><td>GSM 900 / 1800</td></tr>';
+            echo '<tr><td>5. 規格 ( Specification ): </td><td>1.8 吋 TFT主螢幕</td></tr>';
+            echo '<tr><td></td><td>Symbian S30 作業系統</td></tr>';
+            echo '<tr><td></td><td>內建FM收音機, 8.0MB 記憶體及LED手電筒功能</td></tr>';
+            echo '<tr><td>6. 配件 ( Accessory ) </td><td>Nokia High-Efficiency Charger AC - 11X </td></tr>';
+            echo '<tr><td></td><td>Nokia Battery BL-5CB </td></tr>';
+            echo '<tr><td></td><td>Nokia 3.5mm Stereo Headset WH-102</td></tr>';
+            echo '<tr><td></td><td>快速指南、用戶指南與產品資訊說明頁</tr>';
+            echo '<tr><td>7. 保養期限 ( Warranty ) :</td><td>一年</td></tr>';
+            echo '<tr><td>8. 維修商名稱 ( Warranty Provider ) :</td><td>NOKIA</td></tr>';
+            echo '<tr><td>9. 維修地址 ( Repair Center Address ) :</td><td>九龍旺角登打士街56號柏裕商業中心910-14室</td></tr>';
+            echo '<tr><td></td><td>﹙港鐵油麻地站A2出口﹚</td></tr>';
 
-			echo '</table>';
-		}
+            echo '</table>';
+        }
+        if ($goodstype == 1 && $product_id=='SH837'){ //if is phone
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<br>';
+            echo '<table width="" border="0" cellspacing="0"  style="border:1px solid black;float:right;" id = "phonedesc">';
+            echo '<tr><td style="border-bottom:1px solid black; text-align:center; font-size:1.3em; font-weight:bold" colspan="2">產品資料</td></tr>';
+            echo '<tr><td style="border-bottom:1px solid black; text-align:center; font-size:1.3em; font-weight:bold" colspan="2">Product Information</td></tr>';
+            echo '<tr><td>1. 牌子 ( Brand ): </td><td> </td></tr>';
+            echo '<tr><td>2. 產品型號 ( Model ):</td><td>Sh 837 W</td></tr>';
+            echo '<tr><td>3. 產地 ( Original County ):</td><td>China</td></tr>';
+            echo '<tr><td>4. 頻率 ( Frequency) :</td><td>HSDPA / WCDMA / GSM 900/1800/1900 3.5G 雙制式三頻</td></tr>';
+            echo '<tr><td>5. 規格 ( Specification ): </td><td>1.2GHz 雙核心處理器</td></tr>';
+            echo '<tr><td></td><td>1280 x 720 pixels (4.7 吋)</td></tr>';
+            echo '<tr><td></td><td>1600 萬色 Super Clear LCD 螢幕</td></tr>';
+            echo '<tr><td></td><td>800 萬像素 CMOS 鏡頭 (3264 x 2448 pixels)</td></tr>';
+            echo '<tr><td></td><td>130 萬像素 CMOS 鏡頭</td></tr>';
+            echo '<tr><td></td><td>外置Micro-SD</td></tr>';
+            echo '<tr><td></td><td>1GB RAM、4GB 內存</td></tr>';
+            echo '<tr><td></td><td>鋰電池 (1900 mAh)</td></tr>';
+            echo '<tr><td>6. 配件 ( Accessory ) </td><td>Charger x1</td></tr>';
+            echo '<tr><td></td><td>Battery x1</td></tr>';
+            echo '<tr><td></td><td>3.5mm stereo Headser x1</td></tr>';
+            echo '<tr><td></td><td>快速指南, 用戶指南與產哈說明資訊說明頁</tr>';
+            echo '<tr><td>7. 保養期限 ( Warranty ) :</td><td>一年保養</td></tr>';
+            echo '<tr><td>8. 維修商名稱 ( Warranty Provider ) :</td><td>Brighstar Aisa Ltd</td></tr>';
+            echo '<tr><td>9. 維修地址 ( Repair Center Address ) :</td><td>旺角西洋菜街2A-2H號銀地廣場12樓12505-1206室</td></tr>';
+            //echo '<tr><td></td><td>﹙港鐵油麻地站A2出口﹚</td></tr>';
+
+            echo '</table>';
+        }
 	
 	
 ?>
