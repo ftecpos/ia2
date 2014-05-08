@@ -148,7 +148,10 @@ function getGdInfo(e){
     
     $ssa_arr = new Array("abc", "xyz", 1000);
     
-    if(c.length>0 && e.which==13 && c != '306' && c != '320' && c != '321'){
+    if(c.length>0 && e.which==13 
+        && c != '306' && c != '320' && c != '321'
+        && c!='40101' && c!='40102' && c!='40103' && c!='40104' && c!='40201'
+        && c!='40202' && c!='40203' && c!='40204' && c!='40205_BK' && c!='40205_WH'){
     	
             
     	var cBcode  = $('#bcode').val();
@@ -187,8 +190,19 @@ function getGdInfo(e){
             }
         });//----End of ajax------
     }//--------End of if (13)-------------
-    else if(c.length>0 && e.which==13 && (c=='306' || c=='320' || c=='321')){
-        $("#ssa_dialog").dialog("open");
+    else 
+        if(c.length>0 && e.which==13 && 
+            (c=='306' || c=='320' || c=='321' ||
+             c=='40101' || c=='40102' || c=='40103' || c=='40104' || c=='40201' ||
+             c=='40202' || c=='40203' || c=='40204' || c=='40205_BK' || c=='40205_WH'))
+        {
+            if(c=='40101' || c=='40102' || c=='40103' || c=='40104' || c=='40201' ||
+               c=='40202' || c=='40203' || c=='40204' || c=='40205_BK' || c=='40205_WH'){
+                $("#ssa_freepremium_dialog").dialog("open");
+            }
+            if(c=='306' || c=='320' || c=='321'){
+                $("#ssa_dialog").dialog("open");
+            }
         
     }
     else if(c.length==0&& e.which==13 && c != '306'){
@@ -498,7 +512,39 @@ function addAccToInvoice(accNo){
     }else if(accNo == '324'){
         $('#bcode').val('321');
         $("#ssa_dialog").dialog("open");
-    
+        
+    //2014-01-07
+    }else if(accNo == '453'){
+        $('#bcode').val('40101');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '454'){
+        $('#bcode').val('40102');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '455'){
+        $('#bcode').val('40103');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '456'){
+        $('#bcode').val('40104');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '457'){
+        $('#bcode').val('40201');
+        $("#ssa_freepremium_dialog").dialog("open");
+    //2014-03-21
+    }else if(accNo == '459'){
+        $('#bcode').val('40202');
+        $("#ssa_freepremium_dialog").dialog("open");
+        }else if(accNo == '460'){
+        $('#bcode').val('40203');
+        $("#ssa_freepremium_dialog").dialog("open");
+        }else if(accNo == '461'){
+        $('#bcode').val('40204');
+        $("#ssa_freepremium_dialog").dialog("open");
+        }else if(accNo == '463'){
+        $('#bcode').val('40205_BK');
+        $("#ssa_freepremium_dialog").dialog("open");
+        }else if(accNo == '464'){
+        $('#bcode').val('40205_WH');
+        $("#ssa_freepremium_dialog").dialog("open");
     
     }else {
         $.ajax({
@@ -987,23 +1033,23 @@ function addMpRecordTable(){
 //-----------------------------------------------------------------------++++++++++++++++++++
 var op =0;
 function calOrder(e){  //---計算張order
-	var mon = document.getElementById('money');
+    var mon = document.getElementById('money');
     var sMon = parseFloat(mon.value).toFixed(1);
-	var sMonVal = mon.value;
-	var sTotal = total.toFixed(1);
+    var sMonVal = mon.value;
+    var sTotal = total.toFixed(1);
     var sChange = (sMon-sTotal);
     response = null;
     canSave=false;
     //當
     
     if(sMonVal.length >0&& e.which==13 && (sMon-sTotal)>=0){
-		if(paymentNo!=1){
-			if(sChange>0){
-				alert('輸入金額不相符');
-				document.getElementById('money').select();
-				exit(0);
-			}
-		}
+        if(paymentNo!=1){
+            if(sChange>0){
+                alert('輸入金額不相符');
+                document.getElementById('money').select();
+                exit(0);
+            }
+        }
     	//$('#money').attr("disabled", true); 
     	// 	alert(sMFX);
     	$('#money').val(sMon);
@@ -1028,53 +1074,59 @@ function calOrder(e){  //---計算張order
 }//-------------End of calOrder(e) function---------
 
 function caldiscount(e){  //---計算張order的discount
-	var disprice = document.getElementById('disprice');
+    var disprice = document.getElementById('disprice');
     sDisprice = parseFloat(disprice.value).toFixed(1);
-	var sDispriceVal = disprice.value;
+    var sDispriceVal = disprice.value;
 	
-	var salprice = document.getElementById('salprice');
-	sSalprice = parseFloat(salprice.value).toFixed(1);
+    var salprice = document.getElementById('salprice');
+    sSalprice = parseFloat(salprice.value).toFixed(1);
 	
-	newPrice = $('#disprice').val();
-	newPrice = parseFloat(newPrice);
+    newPrice = $('#disprice').val();
+    newPrice = parseFloat(newPrice);
 
     
     if(sDispriceVal.length >0&& e.which==13 && (sSalprice-sDisprice)>=0){
-	  	sDiscount = (sSalprice-sDisprice);
+        sDiscount = (sSalprice-sDisprice);
     	$('#disprice').attr("disabled", true); 
-		$('#disprice').val(sDisprice);
-		tempdis = sDiscount.toFixed(1);
+        $('#disprice').val(sDisprice);
+        tempdis = sDiscount.toFixed(1);
     	$('#tempdiscount').val(tempdis);
-		$('#saltb tr:eq('+(delrow+1)+') td:eq(4)').html(tempdis);  // star with 0, update table record
-		$('#saltb tr:eq('+(delrow+1)+') td:eq(5)').html(sDisprice);  // star with 0, update table record
-		total = total+0+newPrice;
-		var deleteOne = (delrow*10);
-				itemArray.splice((deleteOne+4),1,tempdis);
-				itemArray.splice((deleteOne+5),1,sDisprice);
-				//alert(itemArray);
-		$('#tol').val(total.toFixed(1));
-		$('#discountForm').dialog('close');
-	}//--------End of if (13)-------------
+        $('#saltb tr:eq('+(delrow+1)+') td:eq(4)').html(tempdis);  // star with 0, update table record
+        $('#saltb tr:eq('+(delrow+1)+') td:eq(5)').html(sDisprice);  // star with 0, update table record
+        total = total+0+newPrice;
+        var deleteOne = (delrow*16);
+        //itemArray[delrow].discount = tempdis;
+        //itemArray[delrow].total = sDisprice;
+        itemArray.splice((deleteOne+4),1,tempdis);
+        itemArray.splice((deleteOne+5),1,sDisprice);
+        //alert(itemArray);
+        $('#tol').val(total.toFixed(1));
+        $('#discountForm').dialog('close');
+    }//--------End of if (13)-------------
 }//-------------End of caldiscount(e) function---------
 
 function endChQtyForm(e){
-	var dnechqty = document.getElementById('nechqty');
-	var nechqtyVal = dnechqty.value;
-	 if(nechqtyVal.length >0 && e.which==13){
-	 	newQty = $('#nechqty').val()
-		newDiscount = disprice; // 原本的discount
-		newPrice = (newQty*sSellprice)-disprice;
-		$('#saltb tr:eq('+(delrow+1)+') td:eq(3)').html(newQty);  // star with 0, update table record
-		$('#saltb tr:eq('+(delrow+1)+') td:eq(4)').html(newDiscount); // star with 0, update table record
-		$('#saltb tr:eq('+(delrow+1)+') td:eq(5)').html(newPrice.toFixed(1));  // star with 0, update table record
-				total = total+0+newPrice;
-				var deleteOne = (delrow*7);
-				itemArray.splice((deleteOne+3),1,newQty);
-				itemArray.splice((deleteOne+4),1,newDiscount);
-				itemArray.splice((deleteOne+5),1,newPrice);
-		$('#tol').val(total.toFixed(1));
-	 	$('#chQtyForm').dialog('close');
-	 }
+    var dnechqty = document.getElementById('nechqty');
+    var nechqtyVal = dnechqty.value;
+    if(nechqtyVal.length >0 && e.which==13){
+        newQty = $('#nechqty').val()
+        newDiscount = disprice; // 原本的discount
+        newPrice = (newQty*sSellprice)-disprice;
+        $('#saltb tr:eq('+(delrow+1)+') td:eq(3)').html(newQty);  // star with 0, update table record
+        $('#saltb tr:eq('+(delrow+1)+') td:eq(4)').html(newDiscount); // star with 0, update table record
+        $('#saltb tr:eq('+(delrow+1)+') td:eq(5)').html(newPrice.toFixed(1));  // star with 0, update table record
+        total = total+0+newPrice;
+        var deleteOne = (delrow*16);
+        //itemArray[delrow].qty = newQty;
+        //itemArray[delrow].discount = newDiscount;
+        //itemArray[delrow].total = newPrice;
+        
+        itemArray.splice((deleteOne+3),1,newQty);
+        itemArray.splice((deleteOne+4),1,newDiscount);
+        itemArray.splice((deleteOne+5),1,newPrice);
+        $('#tol').val(total.toFixed(1));
+        $('#chQtyForm').dialog('close');
+    }
 }
 
 //-----------------------------------------------------------------------++++++++++++++++++++
