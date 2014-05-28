@@ -30,6 +30,10 @@ while($row1 = mysql_fetch_assoc($result1)){
 echo '</tr>';
 //////////////////////////////////// List Accessories Inventory ////////////////////////////////////////
 $sql2 = "select * from accessories left join acctype on acctype.accType_no = accessories.accType_no
+             WHERE noshow <> 1
+            ";
+/*
+$sql2 = "select * from accessories left join acctype on acctype.accType_no = accessories.accType_no
             where acc_id not in
 ('2CH0301BK',
 '2CH0301GY',
@@ -217,6 +221,7 @@ $sql2 = "select * from accessories left join acctype on acctype.accType_no = acc
 
 
 )";
+*/
 $result2 = mysql_query($sql2);
 while($row2 = mysql_fetch_assoc($result2)){
 	echo '<tr>';
