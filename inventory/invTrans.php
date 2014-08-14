@@ -10,7 +10,6 @@ if (function_exists('date_default_timezone_set'))
 //must set timezone on the top	
 
 global $db;
-session_start();
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'addTrans': //last update at 2012-11-01
