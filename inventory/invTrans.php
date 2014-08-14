@@ -225,7 +225,8 @@ if (isset($_GET['action'])) {
                     $sql.=" ORDER BY transfer_no DESC";
                 }
             }
-            
+            //add limit to the sql
+            $sql.=" LIMIT 0, 200";
 
             $dataobject = $db->records_sql($sql);
             if ($dataobject) {
@@ -363,12 +364,15 @@ if (isset($_GET['action'])) {
                 }
 
                 $button_inTable = '';
+                $delete_tr_but = '';
                 if ($transState_no == 1) {
 
-                    if ($_SESSION['retail_no'] == getShopno($fromshop))
+                    if ($_SESSION['retail_no'] == getShopno($fromshop)){
                         $button_inTable = '';
-                    else if ($_SESSION['retail_no'] == getShopno($toshop))
-                        $button_inTable = '<input type=\"button\" value=\"收貨\" onclick=\"recTransfer(' . $o_trNo . ')\"/>';
+                    } else if ($_SESSION['retail_no'] == getShopno($toshop)){
+                        $button_inTable = '<input type="button" value="收貨" onclick="recTransfer('.$o_trNo.')"/>';
+                    }
+                    $delete_tr_but = '<input type="button" value="刪除轉貨單" class="finIncel"  onclick="deleteTrans('.$o_trNo.');" />';
                 }else {
                     $button_inTable = '';
                 }
@@ -378,7 +382,23 @@ if (isset($_GET['action'])) {
 
                 $numOfRow = 1;
 
-                $printbut = '<input type=\"button\" value=\"重印轉貨單\" class=\"finIncel\"  onclick=\"printTrans(' . $o_trNo . ');\" />';
+                $printbut = '<input type="button" value="重印轉貨單" class="finIncel"  onclick="printTrans('.$o_trNo.');" />';
+                
+                
+                $msgarray = array();
+                $msgarray["trNo"] = $trNo;
+                $msgarray["createDate"] = $createDate;
+                $msgarray["createBy"] = $createBy;
+                $msgarray["stateName"] = $stateName;
+                $msgarray["fromshop"] = $fromshop;
+                $msgarray["toshop"] = $toshop;
+                $msgarray["detail_of_tr_inTable"] = $detail_of_tr_inTable;
+                $msgarray["button_inTable"] = $button_inTable;
+                $msgarray["printbut"] = $printbut.$delete_tr_but;
+                $msgarray["ftec_dnno"] = $ftec_dnno;
+                $msgarray["ok"] = 1;
+                echo tojson($msgarray);
+/*                
                 echo "var tr =new Array(\"$numOfRow\",
                                         \"$trNo\",
                                         \"$createDate\",
@@ -391,6 +411,8 @@ if (isset($_GET['action'])) {
                                         \"$button_inTable\",
                                         \"$printbut\",
                                         \"$ftec_dnno\");";
+ * 
+ */
             }
             break;
         case'getTransferGdInfo':
