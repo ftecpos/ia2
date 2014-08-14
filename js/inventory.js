@@ -1017,3 +1017,29 @@ function checknum(val){
 	else
 		return false;
 }
+
+function deletepo(pono, delbutton){
+    console.log(delbutton);
+    $.ajax({
+        url: "../receipt/po/poaction.php?po_action=deletepo",
+        cache: false,
+        dataType: 'json',
+        type:'POST',
+        data: {
+            pono:pono
+        },
+        async: false,
+        error: function(xhr) {
+            alert('Ajax request Error!!!!!');
+            //console.log(xhr);
+        },
+        success: function(response){
+            //console.log(response);
+            if(response.ok){
+                callKuenStockIn();
+            } else if (response.error){
+                alert(response.error);
+            }
+        }
+    });//----End of ajax------
+}
