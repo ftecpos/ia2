@@ -252,68 +252,89 @@ $('#button_inTable').html(null);
 
 function findTrDetail(trNo){
 	
-	$('#tr_transNo').val(trNo);
-	$('#tr_transNo').select();
-	var temptrNo=trNo;
-	var needToCut=temptrNo.indexOf('-');
-	var finaltrNo=temptrNo.substr(needToCut+1,9);
-	//alert(finalpoNo);
-		$.ajax({
-			url:"../inventory/invTrans.php?action=getTransDetail",
-			cache: false,
-			dataType: 'script',
-			type:'GET',
-			data:{	trNo:finaltrNo,	},
-			error: function(xhr){ alert('Ajax request Error!!!!!');	},
-			success: function(response) {
-				$('#poTable').html(null);
-				
-				if(tr[0]==1){
-					$('#tr_bottom').html(null);
-					$('.si_headB').css("display","none");
-					
-					$('#tr_foot').css("display","block");
-					$('#tr_bot_trNo').html(tr[1]);
-					
-					$('#tr_bot_tcd').html(tr[2]);
-					$('#tr_bot_cstaff').html(tr[3]);
-//					$('#si_bot_supp').html(tr[4]);
-					$('#tr_bot_trState').html(tr[5]);
-					$('#tr_bot_fromshop').html(tr[6]);
-					$('#tr_bot_toshop').html(tr[7]);
-					
-					$('#tr_detail_area').html(tr[8]);
-					$('#button_inTable').html(tr[9]);
-					
-					$('#tr_bottom').html(tr[10]);
-					$('#tr_bot_dnno').html(tr[11]);
-                                        
-					
-					
-				//	po_State_no=tr[8];
-				//	$('#totalNonRecQty').html(tr[9]);
-				//	$('#totalRecQty').html(tr[10]);
-					
-				//	if(po_State_no==2)
-				//		$('#si_but_area').html('<input type="button" value="Close Order" class="si_but" onclick="si_co(\''+tr[1]+'\')"/>');
-				//	else if(po_State_no==4){
-				//		$('#si_but_area').html('<table border="1" cellpadding="2px" style="float:left;">'+
-				//							   '<tr><td style="width:130px; background-color:#CCC;">Modify By</td><td style="width:180px; background-color:#999;"><div id="">'+tr[11]+'</div></td>'+
-				//							   '<tr><td style="width:130px; background-color:#CCC;">Modify Date</td><td style="width:180px; background-color:#999;"><div id="">'+tr[13]+'</div></td>'+
-				//							   '<tr><td style="width:130px; background-color:#CCC;">Description</td><td style="width:180px; background-color:#999;"><div id="">'+tr[12]+'</div></td>'+
-				//							   '</table>');
-				//	} else
-						$('#si_but_area').html(null);
-				}
-				
-				else{
-					$('#tr_bottom').html('<p style="color:red; font-size:30px;">Record NOT Find</p>');
-					$('#tr_foot').css('display','none');
-				}
-				
-				//$('#si_bottom').html(response);
-			},
-		});//end of ajax
+    $('#tr_transNo').val(trNo);
+    $('#tr_transNo').select();
+    var temptrNo=trNo;
+    var needToCut=temptrNo.indexOf('-');
+    var finaltrNo=temptrNo.substr(needToCut+1,9);
+    //alert(finalpoNo);
+    $.ajax({
+        url:"../inventory/invTrans.php?action=getTransDetail",
+        cache: false,
+        dataType: 'json',
+        type:'GET',
+        data:{	trNo:finaltrNo,	},
+        error: function(xhr){ alert('Ajax request Error!!!!!');	},
+        success: function(response) {
+            $('#poTable').html(null);
+			
+            if(response.ok == 1){
+                $('#tr_bottom').html(null);
+                $('.si_headB').css("display","none");
+	
+                $('#tr_foot').css("display","block");
+                $('#tr_bot_trNo').html(response.trNo);
+                $('#tr_bot_tcd').html(response.createDate);
+                $('#tr_bot_cstaff').html(response.createBy);
+                $('#tr_bot_trState').html(response.stateName);
+                $('#tr_bot_fromshop').html(response.fromshop);
+                $('#tr_bot_toshop').html(response.toshop);
+                $('#tr_detail_area').html(response.detail_of_tr_inTable);
+                $('#button_inTable').html(response.button_inTable);
+                $('#tr_bottom').html(response.printbut);
+                $('#tr_bot_dnno').html(response.ftec_dnno);
+                                    
+                $('#si_but_area').html(null);
+            } else{
+                $('#tr_bottom').html('<p style="color:red; font-size:30px;">Record NOT Find</p>');
+		$('#tr_foot').css('display','none');
+            }
+                               
+                /*if(tr[0]==1){
+                        $('#tr_bottom').html(null);
+                        $('.si_headB').css("display","none");
+
+                        $('#tr_foot').css("display","block");
+                        $('#tr_bot_trNo').html(tr[1]);
+
+                        $('#tr_bot_tcd').html(tr[2]);
+                        $('#tr_bot_cstaff').html(tr[3]);
+                        $('#si_bot_supp').html(tr[4]);
+                        $('#tr_bot_trState').html(tr[5]);
+                        $('#tr_bot_fromshop').html(tr[6]);
+                        $('#tr_bot_toshop').html(tr[7]);
+
+                        $('#tr_detail_area').html(tr[8]);
+                        $('#button_inTable').html(tr[9]);
+
+                        $('#tr_bottom').html(tr[10]);
+                        $('#tr_bot_dnno').html(tr[11]);
+
+                */	
+                //	po_State_no=tr[8];
+                //	$('#totalNonRecQty').html(tr[9]);
+                //	$('#totalRecQty').html(tr[10]);
+
+                //	if(po_State_no==2)
+                //		$('#si_but_area').html('<input type="button" value="Close Order" class="si_but" onclick="si_co(\''+tr[1]+'\')"/>');
+                //	else if(po_State_no==4){
+                //		$('#si_but_area').html('<table border="1" cellpadding="2px" style="float:left;">'+
+                //							   '<tr><td style="width:130px; background-color:#CCC;">Modify By</td><td style="width:180px; background-color:#999;"><div id="">'+tr[11]+'</div></td>'+
+                //							   '<tr><td style="width:130px; background-color:#CCC;">Modify Date</td><td style="width:180px; background-color:#999;"><div id="">'+tr[13]+'</div></td>'+
+                //							   '<tr><td style="width:130px; background-color:#CCC;">Description</td><td style="width:180px; background-color:#999;"><div id="">'+tr[12]+'</div></td>'+
+                //							   '</table>');
+                //	} else
+
+                //}
+
+                //else{
+                //        $('#tr_bottom').html('<p style="color:red; font-size:30px;">Record NOT Find</p>');
+                //        $('#tr_foot').css('display','none');
+                //}
+
+                //$('#si_bottom').html(response);
+            },
+    });//end of ajax
 } //end of findTrDetail(trNo)
 
 
