@@ -9,7 +9,6 @@ set_time_limit(300);
 ?>
 <?php
 global $db;
-session_start();
 
 if(isset($_GET['action'])){
 switch($_GET['action']){
@@ -519,7 +518,7 @@ switch($_GET['action']){
             $forshop=$row1['forshop'];
 
             if(check_is_office() and $poState_no==1){
-                $detail_of_po_inTable .= '<input type=\"button\" value=\"刪除PO\" class=\"finIncel\"  onclick=\"deletepo('.$poNo.');\" />';
+                $detail_of_po_inTable .= '<input type=\"button\" id=\"id_delpobut\" value=\"刪除PO\" class=\"finIncel\"  onclick=\"deletepo('.$poNo.');\" />';
             }
 
             $numOfRow = $db->num_rows($db->query($sql1));

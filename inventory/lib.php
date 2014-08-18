@@ -34,12 +34,6 @@ function get_retailshop_list(){
 
 //unchange function
 
-//kuen
-function print_object($object){
-    echo '<pre>';
-    print_r($object);
-    echo '</pre>';
-}
 
 //kuen
 function print_object_moodle($object) {

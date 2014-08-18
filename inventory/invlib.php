@@ -12,7 +12,6 @@ if(function_exists('date_default_timezone_set')) date_default_timezone_set($time
 set_time_limit(300);
 
 global $db;
-session_start();
 
 $action = array();
 $output = new stdClass();
