@@ -71,3 +71,18 @@ function check_shop_data(){
     }
     return false;
 }
+
+function check_office_staff($staff_no){
+    global $db;
+    $sql = "SELECT *
+            FROM staff
+            WHERE staff_no = $staff_no
+            AND canLogin = 1
+            AND staffType_no = 1"; //please change to 1 later
+    $record = $db->get_record_sql($sql);
+    return $record;
+}
+
+function get_date(){
+    return date("Y-m-d H:i:s");
+}

@@ -372,18 +372,16 @@ if (isset($_GET['action'])) {
                     } else if ($_SESSION['retail_no'] == getShopno($toshop)){
                         $button_inTable = '<input type="button" value="收貨" onclick="recTransfer('.$o_trNo.')"/>';
                     }
-                    $delete_tr_but = '<input type="button" value="刪除轉貨單" class="finIncel"  onclick="deleteTrans('.$o_trNo.');" />';
-                }else {
-                    $button_inTable = '';
+                    if(require_office() && check_office_staff($_SESSION['staff_no'])){
+                        $delete_tr_but = '<input type="button" value="刪除轉貨單" class="finIncel"  onclick="deleteTrans('.$o_trNo.');" />';
+                    }
                 }
-
-
+                
                 //echo $_SESSION['retail_no'];
 
                 $numOfRow = 1;
 
                 $printbut = '<input type="button" value="重印轉貨單" class="finIncel"  onclick="printTrans('.$o_trNo.');" />';
-                
                 
                 $msgarray = array();
                 $msgarray["trNo"] = $trNo;

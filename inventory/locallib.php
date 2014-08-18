@@ -10,7 +10,7 @@ function add_transfer_from_po($pono, $dnno){
     if(!$po_record){
         return FALSE;
     }
-    $sql = "SELECT *
+    $sql = "SELECT * , 0 as stockin_ava_bal, 0 as stockin_trans_qty
             FROM podetail
             WHERE po_no = $po_record->po_no
             AND phonetype_no is null";  //we dont handle phone transfer here
@@ -115,21 +115,7 @@ function get_stockin_record_by_podetailno($podetailno, $condition = null){
     $record = $db->get_records_sql($sql,"stockIn_no");
     return $record;
 }
-function check_office_staff($staff_no){
-    global $db;
-    $sql = "SELECT *
-            FROM staff
-            WHERE staff_no = $staff_no
-            AND canLogin = 1
-            AND staffType_no = 1"; //please change to 1 later
-    $record = $db->get_record_sql($sql);
-    return $record;
-}
-
 
 function get_numofpo($pono_raw){
     return explode('-', $pono_raw);
-}
-function get_date(){
-    return date("Y-m-d H:i:s");
 }
