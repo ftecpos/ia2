@@ -68,6 +68,7 @@ function add_transfer_from_po($pono, $dnno){
     $new_transfer->transState_no = 1;
     $new_transfer->tranReson = '普通轉貨(PO to TRANSFER)';
     $new_transfer->ftec_dnno = $dnno;
+    $new_transfer->with_po = 1;
     
     if(!$new_transferid = $db->insert_record('transfer', $new_transfer)){
         print_error("Cannot create transfer note!");
