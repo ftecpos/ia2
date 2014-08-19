@@ -463,10 +463,10 @@ if (isset($_GET['action'])) {
                 }
             }// End of if $result
             echo ' transObj = { "accName" : "' . $accName . '",
-										   "bcode" : "' . $bcode . '",
-											 "price" : "' . $price . '",
-									   "ava_bal" : "' . $ava_bal . '",
-											  } ';
+                                  "bcode" : "' . $bcode . '",
+                                  "price" : "' . $price . '",
+                                "ava_bal" : "' . $ava_bal . '",
+                    } ';
             break;
     }//end of switch
 } //end of isset	
