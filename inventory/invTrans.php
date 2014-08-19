@@ -288,12 +288,12 @@ if (isset($_GET['action'])) {
         case 'getTransDetail':
             if (isset($_GET['trNo'])) {
                 $transfer_no = $_GET['trNo'];
-                $sql1 = "select transfer_no,transDate, rsA.retail_id as fromshop,rsB.retail_id as toshop,staff_id,transState_no,tranReson, ftec_dnno
-					from transfer tr
-					left join retailShop as rsA on tr.fromRetail_no=rsA.retailShop_no
-					left join retailShop as rsB on tr.toRetail_no=rsB.retailShop_no
-					left join staff as st on tr.staff_no=st.staff_no
-					where tr.transfer_no = $transfer_no";
+                $sql1 = "select transfer_no,transDate, rsA.retail_id as fromshop,rsB.retail_id as toshop,staff_id,transState_no,tranReson, ftec_dnno, with_po
+                         from transfer tr
+                         left join retailShop as rsA on tr.fromRetail_no=rsA.retailShop_no
+                         left join retailShop as rsB on tr.toRetail_no=rsB.retailShop_no
+                         left join staff as st on tr.staff_no=st.staff_no
+                         where tr.transfer_no = $transfer_no";
                 $row1 = $db->getrow($sql1);
                 $trNo = getTrNo($row1['transfer_no']);
                 $o_trNo = $row1['transfer_no'];
@@ -372,7 +372,8 @@ if (isset($_GET['action'])) {
                     } else if ($_SESSION['retail_no'] == getShopno($toshop)){
                         $button_inTable = '<input type="button" value="收貨" onclick="recTransfer('.$o_trNo.')"/>';
                     }
-                    if(require_office() && check_office_staff($_SESSION['staff_no'])){
+                    //有直接連PO的TR唔handle住, with_po = 0 等如無直接連
+                    if(require_office() && check_office_staff($_SESSION['staff_no']) && $row1['with_po'] ==0 ){
                         $delete_tr_but = '<input type="button" value="刪除轉貨單" class="finIncel"  onclick="deleteTrans('.$o_trNo.');" />';
                     }
                 }
