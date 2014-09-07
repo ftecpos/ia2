@@ -1064,3 +1064,34 @@ function deletepo(pono, delbutton){
         }
     });//----End of ajax------
 }
+
+function deleteTrans(trno, delbutton){
+    console.log(delbutton);
+    var _delbutton = delbutton;
+    _delbutton.disabled = true;
+    
+    
+    $.ajax({
+        url: "../receipt/tr/traction.php?tr_action=deletetr",
+        cache: false,
+        dataType: 'json',
+        type:'POST',
+        data: {
+            trno:trno
+        },
+        async: false,
+        error: function(xhr) {
+            alert('Ajax request Error!!!!!');
+            //console.log(xhr);
+        },
+        success: function(response){
+            //console.log(response);
+            if(response.ok){
+                callTransferB();
+                alert(response.msg);
+            } else if (response.error){
+                alert(response.error);
+            }
+        }
+    });//----End of ajax------
+}

@@ -295,6 +295,12 @@ if (isset($_GET['action'])) {
                          left join staff as st on tr.staff_no=st.staff_no
                          where tr.transfer_no = $transfer_no";
                 $row1 = $db->getrow($sql1);
+                if(!$row1){
+                    $msgarray = array();
+                    $msgarray["ok"] = 0;
+                    echo tojson($msgarray);
+                    exit;
+                }
                 $trNo = getTrNo($row1['transfer_no']);
                 $o_trNo = $row1['transfer_no'];
                 $createBy = $row1['staff_id'];
@@ -374,7 +380,7 @@ if (isset($_GET['action'])) {
                     }
                     //有直接連PO的TR唔handle住, with_po = 0 等如無直接連
                     if(require_office() && check_office_staff($_SESSION['staff_no']) && $row1['with_po'] ==0 ){
-                        $delete_tr_but = '<input type="button" value="刪除轉貨單" class="finIncel"  onclick="deleteTrans('.$o_trNo.');" />';
+                        $delete_tr_but = '<input type="button" value="刪除轉貨單" class="finIncel"  onclick="deleteTrans('.$o_trNo.', this);" />';
                     }
                 }
                 
