@@ -6,7 +6,7 @@ if(function_exists('date_default_timezone_set')) date_default_timezone_set($time
 //must set timezone on the top	
 
 global $db;
-session_start();
+//session_start();
 
 //$action='';
 if(isset($_GET['action'])){
