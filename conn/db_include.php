@@ -1,6 +1,5 @@
 <?php
 require_once 'sql_connect.php';
-require_once('C:\ia2\lib/setuplib.php');
 $db = new sql_connect("localhost", "root", "qqqwdresa", "3shop");
 
 unset($CFG);
@@ -22,4 +21,5 @@ $CFG->dboptions = array (
 $CFG->wwwroot   = 'http://localhost';
 $CFG->dataroot  = 'C:\\MoodleWindowsInstaller-latest-22\\server\\moodledata';
 $CFG->admin     = 'admin';
-?>
+
+require_once('C:\ia2/lib/setuplib.php');
