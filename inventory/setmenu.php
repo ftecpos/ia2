@@ -28,6 +28,7 @@
                     echo '<li><a href="#" class="im4" onClick="callKuenStockIn()">進貨</a></li>';
                     echo '<li><a href="#" class="im5" onClick="callpo()">PO 管理</a></li>';
                     echo '<li><a href="#" class="im7" onClick="call_return_supplier()">退貨到供應商</a></li>';
+                    echo '<li><a href="#" class="im21" onClick="call_doa()">DOA</a></li>';
                     echo '</ul>';
 
                     echo '<div class="menutitle" >Reports</div>';
@@ -139,9 +140,14 @@ function call_return_supplier(){
 	$('.rightContent').load("../inventory/return_supplier.php");
 }
 function call_new_transfer(){
-	setAddClass('im20');
+	setAddClass('.im20');
 	resetRightContentCss();
 	$('.rightContent').load("../inventory/new_transfer.php");
+}
+function call_doa(){
+	setAddClass('.im21');
+	resetRightContentCss();
+	$('.rightContent').load("../inventory/doa.php");
 }
 function call_stockin_report(){
 	setAddClass('.im11');
@@ -215,9 +221,10 @@ function setRmClass(){
 	$('.im18').removeClass("selected");
 	$('.im19').removeClass("selected");
 	$('.im20').removeClass("selected");
+	$('.im21').removeClass("selected");
 }
 function setAddClass($clsname){
-	setRmClass();
+    setRmClass();
     $($clsname).addClass("selected");
 }
 function resetRightContentCss(){

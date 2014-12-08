@@ -63,26 +63,26 @@ if($_SESSION['retail_no']==''){
 ?>
 	
 //---------------listSupplierForm------------------------------------------
-        $('#listSupplierForm').dialog('distory');
-        var dialogOption13 = {
-                autoOpen:false,  //defult must be false
-                height: 530,
-                width: 800,
-                closeOnEscape: true,
+    $('#listSupplierForm').dialog('distory');
+    var dialogOption13 = {
+            autoOpen:false,  //defult must be false
+            height: 530,
+            width: 800,
+            closeOnEscape: true,
 //			show:'fade',
 //			hide:'fade',
-                modal: true,
-                resizable: false,
-                open: function () {
-                        $(this).dialog(dialogOption13); //initializ the dailog once again to clean the data that saved at before
-                },
-                buttons : {
-                        "關閉": function() {
-                                $( this ).dialog( "close" );
-                        },
-                },
-        };//end of dialogOption
-        $('#listSupplierForm').dialog(dialogOption13);
+            modal: true,
+            resizable: false,
+            open: function () {
+                    $(this).dialog(dialogOption13); //initializ the dailog once again to clean the data that saved at before
+            },
+            buttons : {
+                    "關閉": function() {
+                            $( this ).dialog( "close" );
+                    },
+            },
+    };//end of dialogOption
+    $('#listSupplierForm').dialog(dialogOption13);
 //---End of listSupplierForm dialog------------------------------
 
 	
@@ -212,7 +212,7 @@ function set_inv_cust_no(inv_type_val){
 ?>
 <body>
 <fieldset>
-    <legend>單據資料</legend>
+    
     <table class="salesinfo">
         <tr class="sit">
             <td>單據種類</td><td colspan="3"><?php set_inv_type(); ?></td>
@@ -231,6 +231,13 @@ function set_inv_cust_no(inv_type_val){
 	</table>
 </fieldset>
 <table>
+    <tr>
+        <td style="overflow:hidden">
+            <label for="barcode" class="tt">Barcode </label>
+                <input type="text" name="imei" id="imei" class="imei" maxlength="15" onclick="select();"  onkeyup="return validateNumber($(this),value)"
+                    style=" width:225px;"/>
+        </td>
+    </tr>
     <tr>
         <td style="overflow:hidden">
             <label for="bcode" class="tt">條碼 : </label>
@@ -264,15 +271,15 @@ function set_inv_cust_no(inv_type_val){
                }
                ?>
                </div>
-		</td>
-	</tr>
+            </td>
+    </tr>
     <tr>
-		<td style="overflow:hidden">
-			<label for="imei" class="tt">IMEI : </label>
-			<input type="text" name="imei" id="imei" class="imei" maxlength="15" onclick="select();"  onkeyup="return validateNumber($(this),value)"
-             style=" width:225px;"/>
-               <div id="osareaB">
-               <?php
+        <td style="overflow:hidden">
+            <label for="imei" class="tt">IMEI : </label>
+                <input type="text" name="imei" id="imei" class="imei" maxlength="15" onclick="select();"  onkeyup="return validateNumber($(this),value)"
+                        style=" width:225px;"/>
+            <div id="osareaB">
+        <?php
                switch ($_SESSION['retail_no']) {
                    case 12:
                     echo '<div id="ospricetestD" style="" onclick=""><a href="#" id="opriceB">原價</a></div>';
@@ -300,27 +307,27 @@ function set_inv_cust_no(inv_type_val){
                }
                	
                ?>
-               </div>
-		</td>
-	</tr>	
-	<tr>
-		<td>
-			<label for="sQty" class="tt">數量 : </label>
-			<input type="text" name="sQty" id="sQty" class="qty" maxlength="5" value="1" onclick="select();" readonly />
-			<!--<input type="button" id="" class="addmin" value="+1" onclick="addmin(2);" />
-			<input type="button" id="" class="addmin" value="-1" onclick="addmin(1);"/>-->
-			<input type="button" id="" class="addmin" value="重置" onclick="addmin(0);"/>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-        	<!--<input type="button" class="srbut" id="chQty" value="更改數量" >-->
-			<input type="button" class="srbut" id="discount" value="折扣" onclick="">
-			<input type="button" class="srbut" id="del" value="刪除" >
-			
+            </div>
+         </td>
+     </tr>
+    <tr>
+        <td>
+            <label for="sQty" class="tt">數量 : </label>
+                <input type="text" name="sQty" id="sQty" class="qty" maxlength="5" value="1" onclick="select();" readonly />
+                <!--<input type="button" id="" class="addmin" value="+1" onclick="addmin(2);" />
+                <input type="button" id="" class="addmin" value="-1" onclick="addmin(1);"/>-->
+                <input type="button" id="" class="addmin" value="重置" onclick="addmin(0);"/>
+        </td>
+    </tr>
+    <tr>
+            <td align="center">
+            <!--<input type="button" class="srbut" id="chQty" value="更改數量" >-->
+                    <input type="button" class="srbut" id="discount" value="折扣" onclick="">
+                    <input type="button" class="srbut" id="del" value="刪除" >
 
-		</td>
-	</tr>
+
+            </td>
+    </tr>
 </table>
 </body>
 </html>

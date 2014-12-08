@@ -1,5 +1,5 @@
 <?php
-		session_start();
+    require ("../conn/db_include.php");
 	if(!isset($_SESSION['staff_no'])){
 		header('location:../no_login.html');
 	} else if(!isset($_SESSION['staff_id'])){
@@ -9,4 +9,3 @@
 	} else if(!isset($_SESSION['retail_no'])){
 		header('location:../no_login.html');
 	}
-?>

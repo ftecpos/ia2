@@ -14,29 +14,31 @@ var CollapsiblePanel1 = new Spry.Widget.CollapsiblePanel("CollapsiblePanel1");
 
 var c1 = false;
 var c2 = false;
-	function checking(x){
-		if(document.getElementById(x).id == "aname"){
-			if(document.getElementById(x).value != ""){
-				document.getElementById("err").innerHTML = '';
-				c1 = true;
-			}else{document.getElementById("err").innerHTML = '不可空白';
-			c1 = false;}				
-		}else if(document.getElementById(x).id == "productid"){
-					if(document.getElementById(x).value != ""){
-				document.getElementById("err1").innerHTML = '';
-				c2 = true;
-			}else{document.getElementById("err1").innerHTML = '不可空白';
-			c2 = false;	
-		}
+function checking(x){
+    if(document.getElementById(x).id == "aname"){
+        if(document.getElementById(x).value != ""){
+            document.getElementById("err").innerHTML = '';
+            c1 = true;
+        }else{document.getElementById("err").innerHTML = '不可空白';
+            c1 = false;}				
+    }else if(document.getElementById(x).id == "productid"){
+        if(document.getElementById(x).value != ""){
+            document.getElementById("err1").innerHTML = '';
+            c2 = true;
+        }else{document.getElementById("err1").innerHTML = '不可空白';
+            c2 = false;	
+        }
+    }
+    if(c1 == true){
+        if(c2 == true){
+            document.getElementById("insert").disabled = false;
+        } else {
+            document.getElementById("insert").disabled = true;
+        }
+    } else {
+        document.getElementById("insert").disabled = true;
+    }
 }
-		if(c1 == true){
-					if(c2 == true){
-						document.getElementById("insert").disabled = false;}
-					else{
-						document.getElementById("insert").disabled = true;}
-			}else{
-				document.getElementById("insert").disabled = true;}
-	}
 
 	function varreset(){
 	c1 = false;
@@ -429,17 +431,12 @@ function stopMove(o,e){
 
 	</tr>
 	<tr>
-		<td>
-		條碼: 
-		</td>
-		<td>
-		<input type ="text" onchange = "checking(this.id)" id = "abar"  size = "30" tabindex="5"/>
-		</td>
-		<td>店員佣金:</td>
-		<td><input type = "text" id = "staff_commiss" tabindex="7"/></td>
+            <td style="background-color: #000; color: #FFF" >條碼:</td><td><input type ="text" onchange = "checking(this.id)" id = "abar"  size = "30" tabindex="5"/></td>
+            <td>店員佣金:</td>
+            <td><input type = "text" id = "staff_commiss" tabindex="7"/></td>
 
 	</tr>
-	<tr>
+        <tr>
 		<td>
 		<p><input type = "button" disabled = "true" value = "新增" id = "insert" onclick="showHint2(this.id);varreset()"/>
 		<input type = "reset" value = "取消" onclick = "varreset()"></p>	

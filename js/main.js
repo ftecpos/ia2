@@ -141,7 +141,7 @@ function addssa(e){
 //-------------getGdInfo(e) function----------------------------------
 function getGdInfo(e){
             //alert(e.which);
-	var bcn = document.getElementById('bcode');
+    var bcn = document.getElementById('bcode');
     var c = bcn.value;
     
     response = null;

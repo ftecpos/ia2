@@ -1,7 +1,11 @@
 ﻿<?php require_once('conn/sqlconnect.php');
+require_once("conn/db_include.php");
+
 	function login_OK($staff_LoginName, $staff_Passwd){
+
+
 		$authorized = false;
-		global $database_conn,$conn,$staff_no,$staff_id,$staff_type;
+		global $database_conn,$conn,$staff_no,$staff_id,$staff_type, $_userobj;
 		mysql_select_db($database_conn,$conn);
 		$SQL = sprintf("SELECT * FROM staff WHERE staff_id = '%s' AND pwd = '%s'", $staff_LoginName,$staff_Passwd);
 		$rs = mysql_query($SQL,$conn) or die(mysql_error());
@@ -11,7 +15,13 @@
 			$staff_no = $rsStaff['staff_no'];
 	        $staff_id = $rsStaff['staff_id'];
 			//$staff_type = $rsStaff['staff_type'];
-            
+            $userobj = new stdClass();
+            $userobj->id        = $rsStaff['staff_no'];
+            $userobj->staffid   = $rsStaff['staff_id'];
+            $userobj->name      = $rsStaff['name'];
+            $userobj->stafftype = $rsStaff['staffType_no'];
+            $userobj->canlogin  = $rsStaff['canLogin'];
+            $_userobj = $userobj;
 		}
 		return $authorized;
 	}
@@ -87,17 +97,18 @@ EOD;
 			print "<h2>".$_GET['msg']."</h2>";
 	}
 	else{
-		if (login_OK($_POST['id'], $_POST['pw'] )){
-      		session_start();
-      		$_SESSION['staff_no'] = $staff_no;
+        if (login_OK($_POST['id'], $_POST['pw'] )){
+            session_start();
+            $_SESSION['staff_no'] = $staff_no;
             $_SESSION['staff_id'] = $staff_id;
-		$_SESSION['staff_type']=$staff_type;
-			header("location:main/main.php");
-	 	}
+            $_SESSION['staff_type']=$staff_type;
+            $_SESSION['USER'] = $_userobj;
+            header("location:main/main.php");
+        }
 		else{
 			$query_string = sprintf("?msg=%s",urlencode("Invaild Login Name or Password!"));
 			header("Location:".$_SERVER['PHP_SELF'].$query_string);
-		}		
+		}
 	 }
 ?>
 <div id="loadSession"></div>
