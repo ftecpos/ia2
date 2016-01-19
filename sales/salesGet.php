@@ -182,9 +182,15 @@ switch($_GET['action']){
             	<tr><td style="width:170px">IMEI</td><td style="width:185px">Receive Date</td><td>電話狀態</td></tr>';
 		while ($row = $db->fetch_array($result)) {
 			echo '<tr><td>';
-			if($row['phoneState_no']==1 && $phoneTypeNo==7){
+			if($row['phoneState_no']==1 && $phoneTypeNo==7){ // 7 = Nokia 100
                             echo '<a href="#" style="color:#0019FF;font-size:15px;" onclick="addMobileToInvoice('.$row['phone_no'].','.$row['retailShop_no'].',1)">'.$row['IMEI'].'</a>';
-                        } else if($row['phoneState_no']==1){
+                        } else if($row['phoneState_no']==1 && $phoneTypeNo==9){ // 9 = Sharp SH930W
+                            echo '<a href="#" style="color:#0019FF;font-size:15px;" onclick="addMobileToInvoice('.$row['phone_no'].','.$row['retailShop_no'].',1)">'.$row['IMEI'].'</a>';
+                        } else if($row['phoneState_no']==1 && $phoneTypeNo==1){ // 1 = Samsung E1085
+                            echo '<a href="#" style="color:#0019FF;font-size:15px;" onclick="addMobileToInvoice('.$row['phone_no'].','.$row['retailShop_no'].',1)">'.$row['IMEI'].'</a>';
+                        } else if($row['phoneState_no']==1 && $phoneTypeNo==2){ // 2 = Samsung E1252 BK
+                            echo '<a href="#" style="color:#0019FF;font-size:15px;" onclick="addMobileToInvoice('.$row['phone_no'].','.$row['retailShop_no'].',1)">'.$row['IMEI'].'</a>';
+                        }  else if($row['phoneState_no']==1){
                             echo '<a href="#" style="color:#0019FF;font-size:15px;" onclick="addMobileToInvoice('.$row['phone_no'].','.$row['retailShop_no'].',0)">'.$row['IMEI'].'</a>';
                         } else
 			if($row['phoneState_no']==2)

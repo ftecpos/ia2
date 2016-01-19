@@ -29,6 +29,7 @@
                     echo '<li><a href="#" class="im5" onClick="callpo()">PO 管理</a></li>';
                     echo '<li><a href="#" class="im7" onClick="call_return_supplier()">退貨到供應商</a></li>';
                     echo '<li><a href="#" class="im21" onClick="call_doa()">DOA</a></li>';
+                    echo '<li><a href="#" class="im22" onClick="call_view_doa()">View DOA</a></li>';
                     echo '</ul>';
 
                     echo '<div class="menutitle" >Reports</div>';
@@ -67,7 +68,10 @@
                 case 19:
                 case 20:
                 case 21:
+                case 30:
+                case 31:
                 case 10000:
+                case 10002:
                     echo '<div class="menutitle">Stock Menu</div><ul>';
                     echo '<li><a href="#" class="im8" onClick="callTransferB()">轉貨</a></li>';
                     echo '<li><a href="#" class="im20" onClick="call_new_transfer()">新增轉貨單</a></li>';
@@ -147,7 +151,13 @@ function call_new_transfer(){
 function call_doa(){
 	setAddClass('.im21');
 	resetRightContentCss();
-	$('.rightContent').load("../inventory/doa.php");
+	//$('.rightContent').load("../inventory/doa/doa.php");
+        //open a new page and load new javascript
+        window.open("../inventory/doa/doa.php");
+}
+function call_view_doa(){
+    setAddClass('.im22');
+    resetRightContentCss();
 }
 function call_stockin_report(){
 	setAddClass('.im11');
@@ -222,6 +232,7 @@ function setRmClass(){
 	$('.im19').removeClass("selected");
 	$('.im20').removeClass("selected");
 	$('.im21').removeClass("selected");
+	$('.im22').removeClass("selected");
 }
 function setAddClass($clsname){
     setRmClass();

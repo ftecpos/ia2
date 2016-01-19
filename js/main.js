@@ -151,7 +151,11 @@ function getGdInfo(e){
     if(c.length>0 && e.which==13 
         && c != '306' && c != '320' && c != '321'
         && c!='40101' && c!='40102' && c!='40103' && c!='40104' && c!='40201'
-        && c!='40202' && c!='40203' && c!='40204' && c!='40205_BK' && c!='40205_WH'){
+        && c!='40202' && c!='40203' && c!='40204' && c!='40205_BK' && c!='40205_WH'
+        && c!='Jabra BT2046'
+        && c!='Xpow_DuoCable_GD'
+        && c!='AC6000_BL' & c!='AC6000_WH' & c!='AC6000_GY' & c!='AC6000_PP' & c!='AC6000_PK'
+        ){
     	
             
     	var cBcode  = $('#bcode').val();
@@ -190,22 +194,25 @@ function getGdInfo(e){
             }
         });//----End of ajax------
     }//--------End of if (13)-------------
-    else 
-        if(c.length>0 && e.which==13 && 
+    else if(c.length>0 && e.which==13 && 
             (c=='306' || c=='320' || c=='321' ||
-             c=='40101' || c=='40102' || c=='40103' || c=='40104' || c=='40201' ||
-             c=='40202' || c=='40203' || c=='40204' || c=='40205_BK' || c=='40205_WH'))
-        {
-            if(c=='40101' || c=='40102' || c=='40103' || c=='40104' || c=='40201' ||
-               c=='40202' || c=='40203' || c=='40204' || c=='40205_BK' || c=='40205_WH'){
-                $("#ssa_freepremium_dialog").dialog("open");
-            }
-            if(c=='306' || c=='320' || c=='321'){
-                $("#ssa_dialog").dialog("open");
-            }
+             c=='40101' || c=='40102' || c=='40103' || c=='40104'    || c=='40201' ||
+             c=='40202' || c=='40203' || c=='40204' || c=='40205_BK' || c=='40205_WH'||
+             c=='Jabra BT2046'||
+             c=='AC6000_BL' || c=='AC6000_WH' || c=='AC6000_GY' || c=='AC6000_PP' || c=='AC6000_PK'
+             ))
+    {
+        if(c=='40101' || c=='40102' || c=='40103' || c=='40104' || c=='40201' ||
+            c=='40202' || c=='40203' || c=='40204' || c=='40205_BK' || c=='40205_WH' ||
+            c=='AC6000_BL' || c=='AC6000_WH' || c=='AC6000_GY' || c=='AC6000_PP' || c=='AC6000_PK'
+        ){
+            $("#ssa_freepremium_dialog").dialog("open");
+        }
+        if(c=='306' || c=='320' || c=='321' || c=='Jabra BT2046'){
+            $("#ssa_dialog").dialog("open");
+        }
         
-    }
-    else if(c.length==0&& e.which==13 && c != '306'){
+    } else if(c.length==0&& e.which==13 && c != '306'){
         endOrder();
     }
 }//-------------End of getGdInfo(e) function---------
@@ -512,6 +519,39 @@ function addAccToInvoice(accNo){
     }else if(accNo == '324'){
         $('#bcode').val('321');
         $("#ssa_dialog").dialog("open");
+    //2014-12-08
+    }else if(accNo == '527'){
+        $('#bcode').val('Jabra BT2046');
+        $("#ssa_dialog").dialog("open");
+    //2015-01-28 
+    }else if(accNo == '530'){
+        $('#bcode').val('IHAVE_6000MAH/YL');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '531'){
+        $('#bcode').val('IHAVE_6000MAH/PK');
+        $("#ssa_dialog").dialog("open");
+        
+    }else if(accNo == '421'){
+        $('#bcode').val('XPR6000BK');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '422'){
+        $('#bcode').val('XPR6000PK');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '423'){
+        $('#bcode').val('XPR6000LP');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '424'){
+        $('#bcode').val('XPR6000WH');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '462'){
+        $('#bcode').val('XPR6000BL');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '575'){
+        $('#bcode').val('XPR6000DP');
+        $("#ssa_dialog").dialog("open");
+    }else if(accNo == '631'){
+        $('#bcode').val('XPR6000PP');
+        $("#ssa_dialog").dialog("open");
         
     //2014-01-07
     }else if(accNo == '453'){
@@ -533,19 +573,59 @@ function addAccToInvoice(accNo){
     }else if(accNo == '459'){
         $('#bcode').val('40202');
         $("#ssa_freepremium_dialog").dialog("open");
-        }else if(accNo == '460'){
+    }else if(accNo == '460'){
         $('#bcode').val('40203');
         $("#ssa_freepremium_dialog").dialog("open");
-        }else if(accNo == '461'){
+    }else if(accNo == '461'){
         $('#bcode').val('40204');
         $("#ssa_freepremium_dialog").dialog("open");
-        }else if(accNo == '463'){
+    }else if(accNo == '463'){
         $('#bcode').val('40205_BK');
         $("#ssa_freepremium_dialog").dialog("open");
-        }else if(accNo == '464'){
+    }else if(accNo == '464'){
         $('#bcode').val('40205_WH');
         $("#ssa_freepremium_dialog").dialog("open");
+    //2015-05-21
+    }else if(accNo == '645'){
+        $('#bcode').val('adam power 5000mahpowerbank_BL');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '646'){
+        $('#bcode').val('adam power 5000mahpowerbank_GN');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '647'){
+        $('#bcode').val('adam power 5000mahpowerbank_PP');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '648'){
+        $('#bcode').val('adam power 5000mahpowerbank_RD');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '649'){
+        $('#bcode').val('adam power 5000mahpowerbank_YL');
+        $("#ssa_freepremium_dialog").dialog("open");
+    //2015-07-23
+    }else if(accNo == '683'){
+        $('#bcode').val('AC6000_BL');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '684'){
+        $('#bcode').val('AC6000_WH');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '685'){
+        $('#bcode').val('AC6000_GY');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '686'){
+        $('#bcode').val('AC6000_PP');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '687'){
+        $('#bcode').val('AC6000_PK');
+        $("#ssa_freepremium_dialog").dialog("open");
     
+    //2015-09-17
+    }else if(accNo == '717'){
+        $('#bcode').val('F5L097TTSLV');
+        $("#ssa_freepremium_dialog").dialog("open");
+    }else if(accNo == '718'){
+        $('#bcode').val('F5L097TTBLK');
+        $("#ssa_freepremium_dialog").dialog("open");
+
     }else {
         $.ajax({
             url:"../sales/salesGet.php?action=getGdInfo",
